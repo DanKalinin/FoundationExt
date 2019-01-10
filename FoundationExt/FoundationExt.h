@@ -11,6 +11,7 @@
 FOUNDATION_EXPORT double FoundationExtVersionNumber;
 FOUNDATION_EXPORT const unsigned char FoundationExtVersionString[];
 
+#import <FoundationExt/NSEMain.h>
 #import <FoundationExt/NSEOperation.h>
 #import <FoundationExt/NSEObject.h>
 #import <FoundationExt/NSEArray.h>
