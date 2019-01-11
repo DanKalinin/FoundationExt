@@ -6,5 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <objc/runtime.h>
 
 typedef void (^NSEBlock)(void);
