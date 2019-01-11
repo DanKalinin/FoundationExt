@@ -166,3 +166,16 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+@implementation NSOperation (NSE)
+
+@end

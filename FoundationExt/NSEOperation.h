@@ -70,3 +70,43 @@ typedef NS_ENUM(NSUInteger, NSEOperationState) {
 - (void)addOperation:(NSEOperation *)operation;
 
 @end
+
+
+
+
+
+
+
+
+
+
+@interface NSOperation (NSE)
+
+@property BOOL isCancelled;
+@property BOOL isExecuting;
+@property BOOL isFinished;
+@property BOOL isAsynchronous;
+@property BOOL isReady;
+
+@property NSEOperationState nseState;
+@property NSError *nseError;
+@property NSOperation *nseSuboperation;
+
+@property (copy) NSEBlock nseStateBlock;
+@property (copy) NSEBlock nseProgressBlock;
+
+@property (readonly) NSOperation *nseParent;
+@property (readonly) NSMutableArray<NSEOperationDelegate> *nseDelegates;
+@property (readonly) NSProgress *nseProgress;
+@property (readonly) NSOperationQueue *nseQueue;
+@property (readonly) NSNotificationCenter *nseCenter;
+@property (readonly) NSRunLoop *nseLoop;
+
+- (void)nseInit;
+
+- (void)nseFinish;
+- (void)nseUpdateState:(NSEOperationState)state;
+- (void)nseUpdateProgress:(int64_t)completedUnitCount;
+- (void)nseAddOperation:(NSOperation *)operation;
+
+@end
