@@ -31,8 +31,9 @@
     BOOL contains = [self containsObject:anObject];
     if (contains) {
     } else {
-        if (index > self.count) {
-            index = self.count;
+        NSUInteger count = self.count;
+        if (index > count) {
+            index = count;
         }
         
         [super insertObject:anObject atIndex:index];
