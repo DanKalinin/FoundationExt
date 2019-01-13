@@ -42,9 +42,9 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     if (self) {
         self.isReady = YES;
         
-        self.delegates = (id)NSMutableOrderedSet.nseWeakOrderedSet;
+//        self.delegates = (id)NSMutableOrderedSet.nseWeakOrderedSet;
 //        self.delegates.queue = NSOperationQueue.mainQueue;
-        [self.delegates addObject:self];
+//        [self.delegates addObject:self];
         
         self.errors = NSMutableArray.array;
         self.progress = NSProgress.new;
@@ -53,6 +53,16 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
         self.loop = NSRunLoop.mainRunLoop;
     }
     return self;
+}
+
+- (NSMutableOrderedSet<NSEOperationDelegate> *)delegates {
+    if (_delegates) {
+    } else {
+        _delegates = (id)NSMutableOrderedSet.nseWeakOrderedSet;
+        [_delegates addObject:self];
+    }
+    
+    return _delegates;
 }
 
 - (void)dealloc {

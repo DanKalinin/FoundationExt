@@ -56,7 +56,7 @@ typedef NS_ENUM(NSUInteger, NSEOperationState) {
 @property (copy) NSEBlock progressBlock;
 
 @property (readonly) NSEOperation *parent;
-@property (readonly) NSMutableOrderedSet<NSEOperationDelegate> *delegates;
+@property (nonatomic, readonly) NSMutableOrderedSet<NSEOperationDelegate> *delegates;
 @property (readonly) NSMutableArray<NSError *> *errors;
 @property (readonly) NSProgress *progress;
 @property (readonly) NSOperationQueue *queue;

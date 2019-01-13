@@ -181,6 +181,10 @@
     [self.nseOperation replaceObjectAtIndex:idx withObject:object];
 }
 
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+    
+}
+
 @end
 
 
