@@ -50,24 +50,24 @@
     return operation;
 }
 
-- (_NSEDictionary *)nseWeakDictionary {
-    _NSEDictionary *dictionary = objc_getAssociatedObject(self, @selector(nseWeakDictionary));
+- (NSMutableDictionary *)nseWeakDictionary {
+    NSMutableDictionary *dictionary = objc_getAssociatedObject(self, @selector(nseWeakDictionary));
     
     if (dictionary) {
     } else {
-        dictionary = _NSEDictionary.strongToWeakDictionary;
+        dictionary = NSMutableDictionary.nseStrongToWeakDictionary;
         objc_setAssociatedObject(self, @selector(nseWeakDictionary), dictionary, OBJC_ASSOCIATION_RETAIN);
     }
     
     return dictionary;
 }
 
-- (_NSEDictionary *)nseStrongDictionary {
-    _NSEDictionary *dictionary = objc_getAssociatedObject(self, @selector(nseStrongDictionary));
+- (NSMutableDictionary *)nseStrongDictionary {
+    NSMutableDictionary *dictionary = objc_getAssociatedObject(self, @selector(nseStrongDictionary));
     
     if (dictionary) {
     } else {
-        dictionary = _NSEDictionary.strongToStrongDictionary;
+        dictionary = NSMutableDictionary.nseStrongToStrongDictionary;
         objc_setAssociatedObject(self, @selector(nseStrongDictionary), dictionary, OBJC_ASSOCIATION_RETAIN);
     }
     
