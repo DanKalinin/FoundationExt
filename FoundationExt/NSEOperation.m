@@ -59,6 +59,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     if (_delegates) {
     } else {
         _delegates = (id)NSMutableOrderedSet.nseWeakOrderedSet;
+        _delegates.nseOperation.invocationQueue = NSOperationQueue.mainQueue;
         [_delegates addObject:self];
     }
     
