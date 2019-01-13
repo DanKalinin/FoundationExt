@@ -116,7 +116,7 @@
 
 
 
-@interface NSEMutableArrayOperation : NSEArrayOperation
+@interface NSEMutableArrayOperation : NSEArrayOperation <NSEMutableArrayDelegate>
 
 @property (weak, readonly) NSMutableArray *object;
 

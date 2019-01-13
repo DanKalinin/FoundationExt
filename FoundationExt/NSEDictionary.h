@@ -48,3 +48,109 @@
 - (instancetype)initWithBackingStore:(NSMapTable *)backingStore;
 
 @end
+
+
+
+
+
+
+
+
+
+
+#import "NSEObject.h"
+
+@class NSEDictionary;
+@class NSEDictionaryObject;
+
+@protocol NSEDictionaryDelegate;
+
+
+
+
+
+
+
+
+
+
+@interface NSDictionary (NSE)
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSEDictionary : NSDictionary
+
+@end
+
+
+
+
+
+
+
+
+
+
+@protocol NSEDictionaryDelegate <NSEObjectDelegate>
+
+@end
+
+
+
+@interface NSEDictionaryOperation : NSEObjectOperation <NSEDictionaryDelegate>
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSMutableDictionary (NSE)
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSEMutableDictionary : NSMutableDictionary
+
+@end
+
+
+
+
+
+
+
+
+
+
+@protocol NSEMutableDictionaryDelegate <NSEDictionaryDelegate>
+
+@end
+
+
+
+@interface NSEMutableDictionaryOperation : NSEDictionaryOperation <NSEMutableDictionaryDelegate>
+
+@end
