@@ -146,14 +146,14 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     self.state = state;
     
     [self.delegates nseOperationDidUpdateState:self];
-//    [self.delegates.queue nseInvokeBlock:self.stateBlock];
+    [self.delegates.nseOperation.invocationQueue nseInvokeBlock:self.stateBlock];
     if (self.state == NSEOperationStateDidStart) {
         [self.delegates nseOperationDidStart:self];
     } else if (self.state == NSEOperationStateDidCancel) {
         [self.delegates nseOperationDidCancel:self];
     } else if (self.state == NSEOperationStateDidFinish) {
         [self.delegates nseOperationDidFinish:self];
-//        [self.delegates.queue nseInvokeBlock:self.completionBlock];
+        [self.delegates.nseOperation.invocationQueue nseInvokeBlock:self.completionBlock];
         
         self.stateBlock = nil;
         self.progressBlock = nil;
@@ -167,7 +167,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     self.progress.completedUnitCount = completedUnitCount;
     
     [self.delegates nseOperationDidUpdateProgress:self];
-//    [self.delegates.queue nseInvokeBlock:self.progressBlock];
+    [self.delegates.nseOperation.invocationQueue nseInvokeBlock:self.progressBlock];
 }
 
 - (void)addOperation:(NSEOperation *)operation {
