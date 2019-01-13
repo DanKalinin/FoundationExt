@@ -1,6 +1,6 @@
 //
 //  NSEError.h
-//  Helpers
+//  FoundationExt
 //
 //  Created by Dan Kalinin on 11/4/18.
 //

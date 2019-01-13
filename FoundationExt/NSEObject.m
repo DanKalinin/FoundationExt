@@ -1,6 +1,6 @@
 //
 //  NSEObject.m
-//  Helpers
+//  FoundationExt
 //
 //  Created by Dan Kalinin on 12/30/18.
 //

@@ -1,6 +1,6 @@
 //
 //  NSEStream.m
-//  Helpers
+//  FoundationExt
 //
 //  Created by Dan Kalinin on 1/8/19.
 //
