@@ -9,13 +9,13 @@
 
 
 
-@interface NSEOrderedSet ()
+@interface _NSEOrderedSet ()
 
 @end
 
 
 
-@implementation NSEOrderedSet
+@implementation _NSEOrderedSet
 
 + (instancetype)weakOrderedSet {
     return self.weakArray;
@@ -55,5 +55,155 @@
         [super replaceObjectAtIndex:index withObject:anObject];
     }
 }
+
+@end
+
+
+
+
+
+
+
+
+
+
+@implementation NSOrderedSet (NSE)
+
+@dynamic nseOperation;
+
++ (instancetype)nseWeakOrderedSet {
+    NSEOrderedSet *set = NSEOrderedSet.new;
+    set.nseOperation.backingStore = NSPointerArray.weakObjectsPointerArray;
+    return set;
+}
+
++ (instancetype)nseStrongOrderedSet {
+    NSEOrderedSet *set = NSEOrderedSet.new;
+    set.nseOperation.backingStore = NSPointerArray.strongObjectsPointerArray;
+    return set;
+}
+
+- (Class)nseOperationClass {
+    return NSEOrderedSetOperation.class;
+}
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSEOrderedSet ()
+
+@end
+
+
+
+@implementation NSEOrderedSet
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSEOrderedSetOperation ()
+
+@end
+
+
+
+@implementation NSEOrderedSetOperation
+
+@dynamic object;
+
+@end
+
+
+
+
+
+
+
+
+
+
+@implementation NSMutableOrderedSet (NSE)
+
+@dynamic nseOperation;
+
++ (instancetype)nseWeakOrderedSet {
+    NSEMutableOrderedSet *set = NSEMutableOrderedSet.new;
+    set.nseOperation.backingStore = NSPointerArray.weakObjectsPointerArray;
+    return set;
+}
+
++ (instancetype)nseStrongOrderedSet {
+    NSEMutableOrderedSet *set = NSEMutableOrderedSet.new;
+    set.nseOperation.backingStore = NSPointerArray.strongObjectsPointerArray;
+    return set;
+}
+
+- (Class)nseOperationClass {
+    return NSEMutableOrderedSetOperation.class;
+}
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSEMutableOrderedSet ()
+
+@end
+
+
+
+@implementation NSEMutableOrderedSet
+
+//@property (readonly) NSUInteger count;
+//- (ObjectType)objectAtIndex:(NSUInteger)idx;
+//- (NSUInteger)indexOfObject:(ObjectType)object;
+
+//- (void)insertObject:(ObjectType)object atIndex:(NSUInteger)idx;
+//- (void)removeObjectAtIndex:(NSUInteger)idx;
+//- (void)replaceObjectAtIndex:(NSUInteger)idx withObject:(ObjectType)object;
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSEMutableOrderedSetOperation ()
+
+@end
+
+
+
+@implementation NSEMutableOrderedSetOperation
+
+@dynamic object;
 
 @end

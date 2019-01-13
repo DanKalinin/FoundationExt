@@ -8,7 +8,7 @@
 #import "NSEMain.h"
 
 @class NSEOperation;
-@class NSEOrderedSet;
+@class _NSEOrderedSet;
 
 @protocol NSEOperationDelegate;
 
@@ -57,7 +57,7 @@ typedef NS_ENUM(NSUInteger, NSEOperationState) {
 @property (copy) NSEBlock progressBlock;
 
 @property (readonly) NSEOperation *parent;
-@property (readonly) NSEOrderedSet<NSEOperationDelegate> *delegates;
+@property (readonly) _NSEOrderedSet<NSEOperationDelegate> *delegates;
 @property (readonly) NSMutableArray<NSError *> *errors;
 @property (readonly) NSProgress *progress;
 @property (readonly) NSOperationQueue *queue;

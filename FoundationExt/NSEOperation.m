@@ -13,7 +13,7 @@
 
 @interface NSEOperation ()
 
-@property NSEOrderedSet<NSEOperationDelegate> *delegates;
+@property _NSEOrderedSet<NSEOperationDelegate> *delegates;
 @property NSMutableArray<NSError *> *errors;
 @property NSProgress *progress;
 @property NSOperationQueue *queue;
@@ -42,7 +42,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     if (self) {
         self.isReady = YES;
         
-        self.delegates = (NSEOrderedSet<NSEOperationDelegate> *)NSEOrderedSet.weakOrderedSet;
+        self.delegates = (id)_NSEOrderedSet.weakOrderedSet;
         self.delegates.queue = NSOperationQueue.mainQueue;
         [self.delegates addObject:self];
         
