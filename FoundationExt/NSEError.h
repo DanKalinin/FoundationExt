@@ -5,7 +5,7 @@
 //  Created by Dan Kalinin on 11/4/18.
 //
 
-#import "NSEObject.h"
+#import "NSEObjectOperation.h"
 
 
 
