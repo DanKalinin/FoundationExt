@@ -5,7 +5,7 @@
 //  Created by Dan Kalinin on 11/4/18.
 //
 
-#import <Foundation/Foundation.h>
+#import "NSEObject.h"
 
 
 

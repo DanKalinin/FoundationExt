@@ -7,7 +7,6 @@
 
 #import "NSEOperation.h"
 #import "NSEOrderedSet.h"
-#import "NSEObject.h"
 
 
 
@@ -45,18 +44,9 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 
 - (instancetype)init {
     self = super.init;
-    if (self) {
-        self.isReady = YES;
-        
-//        self.delegates = (id)NSMutableOrderedSet.nseWeakOrderedSet;
-//        self.delegates.queue = NSOperationQueue.mainQueue;
-//        [self.delegates addObject:self];
-        
-//        self.progress = NSProgress.new;
-//        self.queue = NSOperationQueue.new;
-//        self.center = NSNotificationCenter.defaultCenter;
-//        self.loop = NSRunLoop.mainRunLoop;
-    }
+    
+    self.isReady = YES;
+    
     return self;
 }
 

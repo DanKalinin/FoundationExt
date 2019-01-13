@@ -5,7 +5,7 @@
 //  Created by Dan Kalinin on 1/8/19.
 //
 
-#import "NSEObject.h"
+#import "NSEObjectOperation.h"
 
 @class NSEStream;
 @class NSEStreamOperation;

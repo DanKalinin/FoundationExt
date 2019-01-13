@@ -5,13 +5,11 @@
 //  Created by Dan Kalinin on 12/30/18.
 //
 
-#import "NSEOperation.h"
+#import "NSEMain.h"
 
 @class NSEObject;
-@class NSEObjectOperation;
 
-@protocol NSEObjectDelegate;
-
+@protocol NSEObject;
 
 
 
@@ -21,10 +19,15 @@
 
 
 
-@interface NSObject (NSE)
 
-@property (readonly) Class nseOperationClass;
-@property (readonly) NSEObjectOperation *nseOperation;
+@protocol NSEObject <NSObject>
+
+@end
+
+
+
+@interface NSObject (NSE) <NSEObject>
+
 @property (readonly) NSMutableDictionary *nseWeakDictionary;
 @property (readonly) NSMutableDictionary *nseStrongDictionary;
 
@@ -46,45 +49,5 @@
 
 
 @interface NSEObject : NSObject
-
-@end
-
-
-
-
-
-
-
-
-
-
-@protocol NSEObjectDelegate <NSEOperationDelegate>
-
-@end
-
-
-
-@interface NSEObjectOperation : NSEOperation <NSEObjectDelegate>
-
-@property (weak, readonly) NSObject *object;
-
-- (instancetype)initWithObject:(NSObject *)object;
-
-@end
-
-
-
-
-
-
-
-
-
-
-@interface NSECFObject : NSEOperation <NSEObjectDelegate>
-
-@property (readonly) CFTypeRef object;
-
-- (instancetype)initWithObject:(CFTypeRef)object;
 
 @end

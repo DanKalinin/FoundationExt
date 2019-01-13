@@ -5,7 +5,7 @@
 //  Created by Dan Kalinin on 1/10/19.
 //
 
-#import "NSEMain.h"
+#import "NSEObject.h"
 
 @class NSEOperation;
 
@@ -20,7 +20,7 @@
 
 
 
-@protocol NSEOperationDelegate <NSObject>
+@protocol NSEOperationDelegate <NSEObject>
 
 @optional
 - (void)nseOperationDidUpdateState:(NSEOperation *)operation;
