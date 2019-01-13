@@ -6,7 +6,6 @@
 //
 
 #import "NSEArray.h"
-#import "NSEOperation.h"
 
 
 
@@ -19,16 +18,22 @@
 
 @implementation NSArray (NSE)
 
-- (NSEArray *)nseWeakArray {
-    NSEArray *array = NSEArray.weakArray;
-    [array addObjectsFromArray:self];
+@dynamic nseOperation;
+
++ (instancetype)nseWeakArray {
+    NSEArray *array = NSEArray.new;
+    array.nseOperation.backingStore = NSPointerArray.weakObjectsPointerArray;
     return array;
 }
 
-- (NSEArray *)nseStrongArray {
-    NSEArray *array = NSEArray.strongArray;
-    [array addObjectsFromArray:self];
++ (instancetype)nseStrongArray {
+    NSEArray *array = NSEArray.new;
+    array.nseOperation.backingStore = NSPointerArray.strongObjectsPointerArray;
     return array;
+}
+
+- (Class)nseOperationClass {
+    return NSEArrayOperation.class;
 }
 
 @end
@@ -44,58 +49,41 @@
 
 @interface NSEArray ()
 
-@property NSPointerArray *backingStore;
-@property NSMutableSet<NSString *> *exceptions;
-
 @end
 
 
 
 @implementation NSEArray
 
-+ (instancetype)weakArray {
-    NSEArray *array = [self.alloc initWithBackingStore:NSPointerArray.weakObjectsPointerArray];
-    return array;
+- (NSUInteger)count {
+    return self.nseOperation.count;
 }
 
-+ (instancetype)strongArray {
-    NSEArray *array = [self.alloc initWithBackingStore:NSPointerArray.strongObjectsPointerArray];
-    return array;
+- (id)objectAtIndex:(NSUInteger)index {
+    id object = [self.nseOperation objectAtIndex:index];
+    return object;
 }
 
-- (instancetype)initWithBackingStore:(NSPointerArray *)backingStore {
-    self = super.init;
-    
-    self.backingStore = backingStore;
-    
-    self.exceptions = NSMutableSet.set;
-    
-    return self;
-}
+@end
 
-- (void)didAddObject:(id)object {
-    BOOL kind = [object isKindOfClass:self.class];
-    if (kind) {
-        NSEArray *array = object;
-        [array.exceptions unionSet:self.exceptions];
-        for (object in array) {
-            [array didAddObject:object];
-        }
-    }
-}
 
-- (void)willRemoveObject:(id)object {
-    BOOL kind = [object isKindOfClass:self.class];
-    if (kind) {
-        NSEArray *array = object;
-        [array.exceptions minusSet:self.exceptions];
-        for (object in array) {
-            [array willRemoveObject:object];
-        }
-    }
-}
 
-#pragma mark - NSArray
+
+
+
+
+
+
+
+@interface NSEArrayOperation ()
+
+@end
+
+
+
+@implementation NSEArrayOperation
+
+@dynamic object;
 
 - (NSUInteger)count {
     [self.backingStore compact];
@@ -110,101 +98,135 @@
     return object;
 }
 
-#pragma mark - NSMutableArray
+@end
+
+
+
+
+
+
+
+
+
+
+@implementation NSMutableArray (NSE)
+
+@dynamic nseOperation;
+
++ (instancetype)nseWeakArray {
+    NSEMutableArray *array = NSEMutableArray.new;
+    array.nseOperation.backingStore = NSPointerArray.weakObjectsPointerArray;
+    return array;
+}
+
++ (instancetype)nseStrongArray {
+    NSEMutableArray *array = NSEMutableArray.new;
+    array.nseOperation.backingStore = NSPointerArray.strongObjectsPointerArray;
+    return array;
+}
+
+- (Class)nseOperationClass {
+    return NSEMutableArrayOperation.class;
+}
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSEMutableArray ()
+
+@end
+
+
+
+@implementation NSEMutableArray
+
+- (NSUInteger)count {
+    return self.nseOperation.count;
+}
+
+- (id)objectAtIndex:(NSUInteger)index {
+    id object = [self.nseOperation objectAtIndex:index];
+    return object;
+}
+
+- (void)addObject:(id)anObject {
+    [self.nseOperation addObject:anObject];
+}
 
 - (void)insertObject:(id)anObject atIndex:(NSUInteger)index {
-    [self.backingStore compact];
-    
-    [self.backingStore insertPointer:(__bridge void *)anObject atIndex:index];
-    
-    [self didAddObject:anObject];
+    [self.nseOperation insertObject:anObject atIndex:index];
+}
+
+- (void)removeLastObject {
+    [self.nseOperation removeLastObject];
 }
 
 - (void)removeObjectAtIndex:(NSUInteger)index {
-    [self.backingStore compact];
-    
-    id object = self[index];
-    [self willRemoveObject:object];
-    
-    [self.backingStore removePointerAtIndex:index];
+    [self.nseOperation removeObjectAtIndex:index];
 }
+
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
+    [self.nseOperation replaceObjectAtIndex:index withObject:anObject];
+}
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSEMutableArrayOperation ()
+
+@end
+
+
+
+@implementation NSEMutableArrayOperation
+
+@dynamic object;
 
 - (void)addObject:(id)anObject {
     [self.backingStore compact];
     
     [self.backingStore addPointer:(__bridge void *)anObject];
+}
+
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index {
+    [self.backingStore compact];
     
-    [self didAddObject:anObject];
+    [self.backingStore insertPointer:(__bridge void *)anObject atIndex:index];
 }
 
 - (void)removeLastObject {
     [self.backingStore compact];
     
-    [self willRemoveObject:self.lastObject];
-    
     NSUInteger index = self.backingStore.count - 1;
+    [self.backingStore removePointerAtIndex:index];
+}
+
+- (void)removeObjectAtIndex:(NSUInteger)index {
+    [self.backingStore compact];
+    
     [self.backingStore removePointerAtIndex:index];
 }
 
 - (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
     [self.backingStore compact];
     
-    id object = self[index];
-    [self willRemoveObject:object];
-    
     [self.backingStore replacePointerAtIndex:index withPointer:(__bridge void *)anObject];
-    
-    [self didAddObject:anObject];
-}
-
-#pragma mark - NSObject
-
-- (void)forwardInvocation:(NSInvocation *)anInvocation {
-    for (id target in self) {
-        BOOL responds = [target respondsToSelector:anInvocation.selector];
-        if (responds) {
-            BOOL exception = [self.exceptions containsObject:NSStringFromSelector(anInvocation.selector)];
-            if (self.queue && !exception) {
-                [self.queue nseAddOperationWithBlock:^{
-                    [anInvocation invokeWithTarget:target];
-                } waitUntilFinished:YES];
-            } else {
-                [anInvocation invokeWithTarget:target];
-            }
-        }
-    }
-}
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
-    NSMethodSignature *signature = [super methodSignatureForSelector:aSelector];
-    
-    if (signature) {
-    } else {
-        for (id target in self) {
-            signature = [target methodSignatureForSelector:aSelector];
-            if (signature) {
-                break;
-            }
-        }
-    }
-    
-    return signature;
-}
-
-- (BOOL)respondsToSelector:(SEL)aSelector {
-    BOOL responds = [super respondsToSelector:aSelector];
-    
-    if (responds) {
-    } else {
-        for (id target in self) {
-            responds = [target respondsToSelector:aSelector];
-            if (responds) {
-                break;
-            }
-        }
-    }
-    
-    return responds;
 }
 
 @end

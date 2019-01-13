@@ -85,9 +85,11 @@
 
 @interface NSEOrderedSetOperation : NSEObjectOperation <NSEOrderedSetDelegate>
 
-@property NSPointerArray *backingStore;
-
 @property (weak, readonly) NSOrderedSet *object;
+
+- (NSUInteger)count;
+- (id)objectAtIndex:(NSUInteger)idx;
+- (NSUInteger)indexOfObject:(id)object;
 
 @end
 
