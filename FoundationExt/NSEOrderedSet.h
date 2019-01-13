@@ -5,28 +5,6 @@
 //  Created by Dan Kalinin on 1/8/19.
 //
 
-#import "NSEArray.h"
-
-@class _NSEOrderedSet;
-
-
-
-@interface _NSEOrderedSet : NSEArray
-
-+ (instancetype)weakOrderedSet;
-+ (instancetype)strongOrderedSet;
-
-@end
-
-
-
-
-
-
-
-
-
-
 #import "NSEObject.h"
 
 @class NSEOrderedSet;
@@ -85,9 +63,12 @@
 
 @interface NSEOrderedSetOperation : NSEObjectOperation <NSEOrderedSetDelegate>
 
+@property NSArray *backingStore;
+
+@property (readonly) NSUInteger count;
+
 @property (weak, readonly) NSOrderedSet *object;
 
-- (NSUInteger)count;
 - (id)objectAtIndex:(NSUInteger)idx;
 - (NSUInteger)indexOfObject:(id)object;
 
@@ -138,6 +119,12 @@
 
 @interface NSEMutableOrderedSetOperation : NSEOrderedSetOperation <NSEMutableOrderedSetDelegate>
 
+@property NSMutableArray *backingStore;
+
 @property (weak, readonly) NSMutableOrderedSet *object;
+
+- (void)insertObject:(id)object atIndex:(NSUInteger)idx;
+- (void)removeObjectAtIndex:(NSUInteger)idx;
+- (void)replaceObjectAtIndex:(NSUInteger)idx withObject:(id)object;
 
 @end

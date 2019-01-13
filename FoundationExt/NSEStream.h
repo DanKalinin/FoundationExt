@@ -83,7 +83,7 @@
 
 @interface NSEStreamOperation : NSEObjectOperation <NSEStreamDelegate, NSStreamDelegate>
 
-@property (readonly) _NSEOrderedSet<NSEStreamDelegate> *delegates;
+@property (readonly) NSMutableOrderedSet<NSEStreamDelegate> *delegates;
 
 @property (weak, readonly) NSStream *object;
 @property (weak, readonly) NSEStreamOpening *opening;

@@ -63,7 +63,7 @@
 
 @interface NSEInputStreamOperation : NSEStreamOperation <NSEInputStreamDelegate>
 
-@property (readonly) _NSEOrderedSet<NSEInputStreamDelegate> *delegates;
+@property (readonly) NSMutableOrderedSet<NSEInputStreamDelegate> *delegates;
 
 @property (weak, readonly) NSInputStream *object;
 

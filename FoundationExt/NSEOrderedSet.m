@@ -6,57 +6,7 @@
 //
 
 #import "NSEOrderedSet.h"
-
-
-
-@interface _NSEOrderedSet ()
-
-@end
-
-
-
-@implementation _NSEOrderedSet
-
-+ (instancetype)weakOrderedSet {
-    return self.weakArray;
-}
-
-+ (instancetype)strongOrderedSet {
-    return self.strongArray;
-}
-
-#pragma mark - NSMutableArray
-
-- (void)insertObject:(id)anObject atIndex:(NSUInteger)index {
-    BOOL contains = [self containsObject:anObject];
-    if (contains) {
-    } else {
-        NSUInteger count = self.count;
-        if (index > count) {
-            index = count;
-        }
-        
-        [super insertObject:anObject atIndex:index];
-    }
-}
-
-- (void)addObject:(id)anObject {
-    BOOL contains = [self containsObject:anObject];
-    if (contains) {
-    } else {
-        [super addObject:anObject];
-    }
-}
-
-- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
-    BOOL contains = [self containsObject:anObject];
-    if (contains) {
-    } else {
-        [super replaceObjectAtIndex:index withObject:anObject];
-    }
-}
-
-@end
+#import "NSEArray.h"
 
 
 
@@ -73,11 +23,13 @@
 
 + (instancetype)nseWeakOrderedSet {
     NSEOrderedSet *set = NSEOrderedSet.new;
+    set.nseOperation.backingStore = NSArray.nseWeakArray;
     return set;
 }
 
 + (instancetype)nseStrongOrderedSet {
     NSEOrderedSet *set = NSEOrderedSet.new;
+    set.nseOperation.backingStore = NSArray.nseStrongArray;
     return set;
 }
 
@@ -104,6 +56,20 @@
 
 @implementation NSEOrderedSet
 
+- (NSUInteger)count {
+    return self.nseOperation.count;
+}
+
+- (id)objectAtIndex:(NSUInteger)idx {
+    id object = [self.nseOperation objectAtIndex:idx];
+    return object;
+}
+
+- (NSUInteger)indexOfObject:(id)object {
+    NSUInteger index = [self.nseOperation indexOfObject:object];
+    return index;
+}
+
 @end
 
 
@@ -125,6 +91,20 @@
 
 @dynamic object;
 
+- (NSUInteger)count {
+    return self.backingStore.count;
+}
+
+- (id)objectAtIndex:(NSUInteger)idx {
+    id object = [self.backingStore objectAtIndex:idx];
+    return object;
+}
+
+- (NSUInteger)indexOfObject:(id)object {
+    NSUInteger index = [self.backingStore indexOfObject:object];
+    return index;
+}
+
 @end
 
 
@@ -142,11 +122,13 @@
 
 + (instancetype)nseWeakOrderedSet {
     NSEMutableOrderedSet *set = NSEMutableOrderedSet.new;
+    set.nseOperation.backingStore = NSMutableArray.nseWeakArray;
     return set;
 }
 
 + (instancetype)nseStrongOrderedSet {
     NSEMutableOrderedSet *set = NSEMutableOrderedSet.new;
+    set.nseOperation.backingStore = NSMutableArray.nseStrongArray;
     return set;
 }
 
@@ -173,13 +155,31 @@
 
 @implementation NSEMutableOrderedSet
 
-//@property (readonly) NSUInteger count;
-//- (ObjectType)objectAtIndex:(NSUInteger)idx;
-//- (NSUInteger)indexOfObject:(ObjectType)object;
+- (NSUInteger)count {
+    return self.nseOperation.count;
+}
 
-//- (void)insertObject:(ObjectType)object atIndex:(NSUInteger)idx;
-//- (void)removeObjectAtIndex:(NSUInteger)idx;
-//- (void)replaceObjectAtIndex:(NSUInteger)idx withObject:(ObjectType)object;
+- (id)objectAtIndex:(NSUInteger)idx {
+    id object = [self.nseOperation objectAtIndex:idx];
+    return object;
+}
+
+- (NSUInteger)indexOfObject:(id)object {
+    NSUInteger index = [self.nseOperation indexOfObject:object];
+    return index;
+}
+
+- (void)insertObject:(id)object atIndex:(NSUInteger)idx {
+    [self.nseOperation insertObject:object atIndex:idx];
+}
+
+- (void)removeObjectAtIndex:(NSUInteger)idx {
+    [self.nseOperation removeObjectAtIndex:idx];
+}
+
+- (void)replaceObjectAtIndex:(NSUInteger)idx withObject:(id)object {
+    [self.nseOperation replaceObjectAtIndex:idx withObject:object];
+}
 
 @end
 
@@ -201,6 +201,19 @@
 @implementation NSEMutableOrderedSetOperation
 
 @dynamic object;
+@dynamic backingStore;
+
+- (void)insertObject:(id)object atIndex:(NSUInteger)idx {
+    [self.backingStore insertObject:object atIndex:idx];
+}
+
+- (void)removeObjectAtIndex:(NSUInteger)idx {
+    [self.backingStore removeObjectAtIndex:idx];
+}
+
+- (void)replaceObjectAtIndex:(NSUInteger)idx withObject:(id)object {
+    [self.backingStore replaceObjectAtIndex:idx withObject:object];
+}
 
 //- (void)didAddObject:(id)object {
 //    BOOL kind = [object isKindOfClass:self.class];

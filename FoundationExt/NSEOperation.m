@@ -13,7 +13,7 @@
 
 @interface NSEOperation ()
 
-@property _NSEOrderedSet<NSEOperationDelegate> *delegates;
+@property NSMutableOrderedSet<NSEOperationDelegate> *delegates;
 @property NSMutableArray<NSError *> *errors;
 @property NSProgress *progress;
 @property NSOperationQueue *queue;
@@ -42,8 +42,8 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     if (self) {
         self.isReady = YES;
         
-        self.delegates = (id)_NSEOrderedSet.weakOrderedSet;
-        self.delegates.queue = NSOperationQueue.mainQueue;
+        self.delegates = (id)NSMutableOrderedSet.nseWeakOrderedSet;
+//        self.delegates.queue = NSOperationQueue.mainQueue;
         [self.delegates addObject:self];
         
         self.errors = NSMutableArray.array;
@@ -136,14 +136,14 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     self.state = state;
     
     [self.delegates nseOperationDidUpdateState:self];
-    [self.delegates.queue nseInvokeBlock:self.stateBlock];
+//    [self.delegates.queue nseInvokeBlock:self.stateBlock];
     if (self.state == NSEOperationStateDidStart) {
         [self.delegates nseOperationDidStart:self];
     } else if (self.state == NSEOperationStateDidCancel) {
         [self.delegates nseOperationDidCancel:self];
     } else if (self.state == NSEOperationStateDidFinish) {
         [self.delegates nseOperationDidFinish:self];
-        [self.delegates.queue nseInvokeBlock:self.completionBlock];
+//        [self.delegates.queue nseInvokeBlock:self.completionBlock];
         
         self.stateBlock = nil;
         self.progressBlock = nil;
@@ -157,7 +157,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     self.progress.completedUnitCount = completedUnitCount;
     
     [self.delegates nseOperationDidUpdateProgress:self];
-    [self.delegates.queue nseInvokeBlock:self.progressBlock];
+//    [self.delegates.queue nseInvokeBlock:self.progressBlock];
 }
 
 - (void)addOperation:(NSEOperation *)operation {
