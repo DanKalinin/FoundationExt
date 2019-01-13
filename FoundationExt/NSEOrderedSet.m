@@ -308,9 +308,13 @@
 @dynamic backingStore;
 
 - (void)insertObject:(id)object atIndex:(NSUInteger)idx {
-    [self.backingStore insertObject:object atIndex:idx];
-    
-    [self didAddObject:object];
+    BOOL contains = [self.object containsObject:object];
+    if (contains) {
+    } else {
+        [self.backingStore insertObject:object atIndex:idx];
+        
+        [self didAddObject:object];
+    }
 }
 
 - (void)removeObjectAtIndex:(NSUInteger)idx {
@@ -321,12 +325,16 @@
 }
 
 - (void)replaceObjectAtIndex:(NSUInteger)idx withObject:(id)object {
-    id oldObject = self.object[idx];
-    [self willRemoveObject:oldObject];
-    
-    [self.backingStore replaceObjectAtIndex:idx withObject:object];
-    
-    [self didAddObject:object];
+    BOOL contains = [self.object containsObject:object];
+    if (contains) {
+    } else {
+        id oldObject = self.object[idx];
+        [self willRemoveObject:oldObject];
+        
+        [self.backingStore replaceObjectAtIndex:idx withObject:object];
+        
+        [self didAddObject:object];
+    }
 }
 
 - (void)didAddObject:(id)object {
