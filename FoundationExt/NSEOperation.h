@@ -13,6 +13,13 @@
 
 
 
+
+
+
+
+
+
+
 @protocol NSEOperationDelegate <NSObject>
 
 @optional
@@ -56,57 +63,17 @@ typedef NS_ENUM(NSUInteger, NSEOperationState) {
 @property (copy) NSEBlock progressBlock;
 
 @property (readonly) NSEOperation *parent;
+
 @property (nonatomic, readonly) NSMutableOrderedSet<NSEOperationDelegate> *delegates;
-@property (readonly) NSMutableArray<NSError *> *errors;
-@property (readonly) NSProgress *progress;
-@property (readonly) NSOperationQueue *queue;
-@property (readonly) NSNotificationCenter *center;
-@property (readonly) NSRunLoop *loop;
+@property (nonatomic, readonly) NSProgress *progress;
+@property (nonatomic, readonly) NSOperationQueue *queue;
+@property (nonatomic, readonly) NSNotificationCenter *center;
+@property (nonatomic, readonly) NSRunLoop *loop;
 
 - (void)finish;
 - (void)updateState:(NSEOperationState)state;
 - (void)updateProgress:(int64_t)completedUnitCount;
 - (void)addOperation:(NSEOperation *)operation;
-
-@end
-
-
-
-
-
-
-
-
-
-
-@interface NSOperation (NSE)
-
-@property BOOL isCancelled;
-@property BOOL isExecuting;
-@property BOOL isFinished;
-@property BOOL isAsynchronous;
-@property BOOL isReady;
-
-@property NSEOperationState nseState;
-@property NSError *nseError;
-@property NSOperation *nseSuboperation;
-
-@property (copy) NSEBlock nseStateBlock;
-@property (copy) NSEBlock nseProgressBlock;
-
-@property (readonly) NSOperation *nseParent;
-@property (readonly) NSMutableArray<NSEOperationDelegate> *nseDelegates;
-@property (readonly) NSProgress *nseProgress;
-@property (readonly) NSOperationQueue *nseQueue;
-@property (readonly) NSNotificationCenter *nseCenter;
-@property (readonly) NSRunLoop *nseLoop;
-
-- (void)nseInit;
-
-- (void)nseFinish;
-- (void)nseUpdateState:(NSEOperationState)state;
-- (void)nseUpdateProgress:(int64_t)completedUnitCount;
-- (void)nseAddOperation:(NSOperation *)operation;
 
 @end
 

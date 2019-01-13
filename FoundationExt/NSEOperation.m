@@ -11,10 +11,16 @@
 
 
 
+
+
+
+
+
+
+
 @interface NSEOperation ()
 
 @property NSMutableOrderedSet<NSEOperationDelegate> *delegates;
-@property NSMutableArray<NSError *> *errors;
 @property NSProgress *progress;
 @property NSOperationQueue *queue;
 @property NSNotificationCenter *center;
@@ -46,13 +52,46 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 //        self.delegates.queue = NSOperationQueue.mainQueue;
 //        [self.delegates addObject:self];
         
-        self.errors = NSMutableArray.array;
-        self.progress = NSProgress.new;
-        self.queue = NSOperationQueue.new;
-        self.center = NSNotificationCenter.defaultCenter;
-        self.loop = NSRunLoop.mainRunLoop;
+//        self.progress = NSProgress.new;
+//        self.queue = NSOperationQueue.new;
+//        self.center = NSNotificationCenter.defaultCenter;
+//        self.loop = NSRunLoop.mainRunLoop;
     }
     return self;
+}
+
+- (void)setIsCancelled:(BOOL)isCancelled {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(isCancelled))];
+    _isCancelled = isCancelled;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(isCancelled))];
+}
+
+- (void)setIsExecuting:(BOOL)isExecuting {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(isExecuting))];
+    _isExecuting = isExecuting;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(isExecuting))];
+}
+
+- (void)setIsFinished:(BOOL)isFinished {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(isFinished))];
+    _isFinished = isFinished;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(isFinished))];
+}
+
+- (void)setIsAsynchronous:(BOOL)isAsynchronous {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(isAsynchronous))];
+    _isAsynchronous = isAsynchronous;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(isAsynchronous))];
+}
+
+- (void)setIsReady:(BOOL)isReady {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(isReady))];
+    _isReady = isReady;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(isReady))];
+}
+
+- (NSEOperation *)parent {
+    return self.delegates[1][0];
 }
 
 - (NSMutableOrderedSet<NSEOperationDelegate> *)delegates {
@@ -66,8 +105,40 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     return _delegates;
 }
 
-- (void)dealloc {
+- (NSProgress *)progress {
+    if (_progress) {
+    } else {
+        _progress = NSProgress.new;
+    }
     
+    return _progress;
+}
+
+- (NSOperationQueue *)queue {
+    if (_queue) {
+    } else {
+        _queue = NSOperationQueue.new;
+    }
+    
+    return _queue;
+}
+
+- (NSNotificationCenter *)center {
+    if (_center) {
+    } else {
+        _center = NSNotificationCenter.defaultCenter;
+    }
+    
+    return _center;
+}
+
+- (NSRunLoop *)loop {
+    if (_loop) {
+    } else {
+        _loop = NSRunLoop.mainRunLoop;
+    }
+    
+    return _loop;
 }
 
 - (void)start {
@@ -105,44 +176,6 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     [self updateState:NSEOperationStateDidFinish];
 }
 
-#pragma mark - Accessors
-
-- (void)setIsCancelled:(BOOL)isCancelled {
-    [self willChangeValueForKey:NSStringFromSelector(@selector(isCancelled))];
-    _isCancelled = isCancelled;
-    [self didChangeValueForKey:NSStringFromSelector(@selector(isCancelled))];
-}
-
-- (void)setIsExecuting:(BOOL)isExecuting {
-    [self willChangeValueForKey:NSStringFromSelector(@selector(isExecuting))];
-    _isExecuting = isExecuting;
-    [self didChangeValueForKey:NSStringFromSelector(@selector(isExecuting))];
-}
-
-- (void)setIsFinished:(BOOL)isFinished {
-    [self willChangeValueForKey:NSStringFromSelector(@selector(isFinished))];
-    _isFinished = isFinished;
-    [self didChangeValueForKey:NSStringFromSelector(@selector(isFinished))];
-}
-
-- (void)setIsAsynchronous:(BOOL)isAsynchronous {
-    [self willChangeValueForKey:NSStringFromSelector(@selector(isAsynchronous))];
-    _isAsynchronous = isAsynchronous;
-    [self didChangeValueForKey:NSStringFromSelector(@selector(isAsynchronous))];
-}
-
-- (void)setIsReady:(BOOL)isReady {
-    [self willChangeValueForKey:NSStringFromSelector(@selector(isReady))];
-    _isReady = isReady;
-    [self didChangeValueForKey:NSStringFromSelector(@selector(isReady))];
-}
-
-- (NSEOperation *)parent {
-    return self.delegates[1][0];
-}
-
-#pragma mark - Helpers
-
 - (void)updateState:(NSEOperationState)state {
     self.state = state;
     
@@ -175,19 +208,6 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     [operation.delegates addObject:self.delegates];
     [self.queue addOperation:operation];
 }
-
-@end
-
-
-
-
-
-
-
-
-
-
-@implementation NSOperation (NSE)
 
 @end
 
