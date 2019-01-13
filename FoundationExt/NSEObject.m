@@ -67,7 +67,7 @@
     
     if (dictionary) {
     } else {
-        dictionary = NSMutableDictionary.nseStrongToStrongDictionary;
+        dictionary = NSMutableDictionary.dictionary;
         objc_setAssociatedObject(self, @selector(nseStrongDictionary), dictionary, OBJC_ASSOCIATION_RETAIN);
     }
     
