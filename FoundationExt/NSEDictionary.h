@@ -7,7 +7,7 @@
 
 #import "NSEObject.h"
 
-@class NSEDictionary;
+@class _NSEDictionary;
 
 
 
@@ -18,12 +18,12 @@
 
 
 
-@interface NSDictionary (NSE)
+@interface NSDictionary (_NSE)
 
-@property (readonly) NSEDictionary *nseWeakToWeakDictionary;
-@property (readonly) NSEDictionary *nseWeakToStrongDictionary;
-@property (readonly) NSEDictionary *nseStrongToWeakDictionary;
-@property (readonly) NSEDictionary *nseStrongToStrongDictionary;
+@property (readonly) _NSEDictionary *nseWeakToWeakDictionary;
+@property (readonly) _NSEDictionary *nseWeakToStrongDictionary;
+@property (readonly) _NSEDictionary *nseStrongToWeakDictionary;
+@property (readonly) _NSEDictionary *nseStrongToStrongDictionary;
 
 @end
 
@@ -36,7 +36,7 @@
 
 
 
-@interface NSEDictionary : NSMutableDictionary
+@interface _NSEDictionary : NSMutableDictionary
 
 @property (readonly) NSMapTable *backingStore;
 

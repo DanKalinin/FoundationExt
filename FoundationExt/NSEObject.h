@@ -9,7 +9,7 @@
 
 @class NSEObject;
 @class NSEObjectOperation;
-@class NSEDictionary;
+@class _NSEDictionary;
 
 @protocol NSEObjectDelegate;
 
@@ -26,8 +26,8 @@
 
 @property (readonly) Class nseOperationClass;
 @property (readonly) NSEObjectOperation *nseOperation;
-@property (readonly) NSEDictionary *nseWeakDictionary;
-@property (readonly) NSEDictionary *nseStrongDictionary;
+@property (readonly) _NSEDictionary *nseWeakDictionary;
+@property (readonly) _NSEDictionary *nseStrongDictionary;
 
 + (instancetype)nseShared;
 + (void)nseInvokeBlock:(NSEBlock)block;

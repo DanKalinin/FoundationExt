@@ -50,24 +50,24 @@
     return operation;
 }
 
-- (NSEDictionary *)nseWeakDictionary {
-    NSEDictionary *dictionary = objc_getAssociatedObject(self, @selector(nseWeakDictionary));
+- (_NSEDictionary *)nseWeakDictionary {
+    _NSEDictionary *dictionary = objc_getAssociatedObject(self, @selector(nseWeakDictionary));
     
     if (dictionary) {
     } else {
-        dictionary = NSEDictionary.strongToWeakDictionary;
+        dictionary = _NSEDictionary.strongToWeakDictionary;
         objc_setAssociatedObject(self, @selector(nseWeakDictionary), dictionary, OBJC_ASSOCIATION_RETAIN);
     }
     
     return dictionary;
 }
 
-- (NSEDictionary *)nseStrongDictionary {
-    NSEDictionary *dictionary = objc_getAssociatedObject(self, @selector(nseStrongDictionary));
+- (_NSEDictionary *)nseStrongDictionary {
+    _NSEDictionary *dictionary = objc_getAssociatedObject(self, @selector(nseStrongDictionary));
     
     if (dictionary) {
     } else {
-        dictionary = NSEDictionary.strongToStrongDictionary;
+        dictionary = _NSEDictionary.strongToStrongDictionary;
         objc_setAssociatedObject(self, @selector(nseStrongDictionary), dictionary, OBJC_ASSOCIATION_RETAIN);
     }
     

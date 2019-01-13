@@ -16,28 +16,28 @@
 
 
 
-@implementation NSDictionary (NSE)
+@implementation NSDictionary (_NSE)
 
-- (NSEDictionary *)nseWeakToWeakDictionary {
-    NSEDictionary *dictionary = NSEDictionary.weakToWeakDictionary;
+- (_NSEDictionary *)nseWeakToWeakDictionary {
+    _NSEDictionary *dictionary = _NSEDictionary.weakToWeakDictionary;
     [dictionary addEntriesFromDictionary:self];
     return dictionary;
 }
 
-- (NSEDictionary *)nseWeakToStrongDictionary {
-    NSEDictionary *dictionary = NSEDictionary.weakToStrongDictionary;
+- (_NSEDictionary *)nseWeakToStrongDictionary {
+    _NSEDictionary *dictionary = _NSEDictionary.weakToStrongDictionary;
     [dictionary addEntriesFromDictionary:self];
     return dictionary;
 }
 
-- (NSEDictionary *)nseStrongToWeakDictionary {
-    NSEDictionary *dictionary = NSEDictionary.strongToWeakDictionary;
+- (_NSEDictionary *)nseStrongToWeakDictionary {
+    _NSEDictionary *dictionary = _NSEDictionary.strongToWeakDictionary;
     [dictionary addEntriesFromDictionary:self];
     return dictionary;
 }
 
-- (NSEDictionary *)nseStrongToStrongDictionary {
-    NSEDictionary *dictionary = NSEDictionary.strongToStrongDictionary;
+- (_NSEDictionary *)nseStrongToStrongDictionary {
+    _NSEDictionary *dictionary = _NSEDictionary.strongToStrongDictionary;
     [dictionary addEntriesFromDictionary:self];
     return dictionary;
 }
@@ -53,7 +53,7 @@
 
 
 
-@interface NSEDictionary ()
+@interface _NSEDictionary ()
 
 @property NSMapTable *backingStore;
 
@@ -61,25 +61,25 @@
 
 
 
-@implementation NSEDictionary
+@implementation _NSEDictionary
 
 + (instancetype)weakToWeakDictionary {
-    NSEDictionary *dictionary = [self.alloc initWithBackingStore:NSMapTable.weakToWeakObjectsMapTable];
+    _NSEDictionary *dictionary = [self.alloc initWithBackingStore:NSMapTable.weakToWeakObjectsMapTable];
     return dictionary;
 }
 
 + (instancetype)weakToStrongDictionary {
-    NSEDictionary *dictionary = [self.alloc initWithBackingStore:NSMapTable.weakToStrongObjectsMapTable];
+    _NSEDictionary *dictionary = [self.alloc initWithBackingStore:NSMapTable.weakToStrongObjectsMapTable];
     return dictionary;
 }
 
 + (instancetype)strongToWeakDictionary {
-    NSEDictionary *dictionary = [self.alloc initWithBackingStore:NSMapTable.strongToWeakObjectsMapTable];
+    _NSEDictionary *dictionary = [self.alloc initWithBackingStore:NSMapTable.strongToWeakObjectsMapTable];
     return dictionary;
 }
 
 + (instancetype)strongToStrongDictionary {
-    NSEDictionary *dictionary = [self.alloc initWithBackingStore:NSMapTable.strongToStrongObjectsMapTable];
+    _NSEDictionary *dictionary = [self.alloc initWithBackingStore:NSMapTable.strongToStrongObjectsMapTable];
     return dictionary;
 }
 
