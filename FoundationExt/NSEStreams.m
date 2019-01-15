@@ -74,7 +74,7 @@
     return self.opening;
 }
 
--(NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
+- (NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
     NSEStreamsOpening *operation = [self openWithTimeout:timeout];
     operation.completionBlock = completion;
     return operation;
