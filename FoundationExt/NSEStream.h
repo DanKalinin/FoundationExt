@@ -8,6 +8,7 @@
 #import "NSEObjectOperation.h"
 
 @class NSEStream;
+@class NSEStreamOpening;
 @class NSEStreamOperation;
 @class NSEInputStream;
 @class NSEInputStreamOperation;
@@ -15,6 +16,7 @@
 @class NSEOutputStreamOperation;
 
 @protocol NSEStreamDelegate;
+@protocol NSEStreamOpeningDelegate;
 @protocol NSEInputStreamDelegate;
 @protocol NSEOutputStreamDelegate;
 
@@ -74,7 +76,7 @@
 
 
 
-@protocol NSEStreamDelegate <NSEObjectDelegate>
+@protocol NSEStreamDelegate <NSEObjectDelegate, NSEStreamOpeningDelegate>
 
 @optional
 - (void)nseStreamOpenCompleted:(NSStream *)stream;
@@ -93,6 +95,9 @@
 
 @property (weak, readonly) NSStream *object;
 @property (weak, readonly) NSEStreamOpening *opening;
+
+- (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout;
+- (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
 
 @end
 

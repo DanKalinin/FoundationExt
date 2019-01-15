@@ -94,6 +94,18 @@
     return self;
 }
 
+- (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout {
+    self.opening = NSEStreamOpening.new.nseAutorelease;
+    [self addOperation:self.opening];
+    return self.opening;
+}
+
+- (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
+    NSEStreamOpening *operation = [self openWithTimeout:timeout];
+    operation.completionBlock = completion;
+    return operation;
+}
+
 #pragma mark - NSStreamDelegate
 
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {

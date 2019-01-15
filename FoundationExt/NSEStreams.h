@@ -8,9 +8,29 @@
 #import "NSEStream.h"
 
 @class NSEStreams;
+@class NSEStreamsOpening;
 
 @protocol NSEStreamsDelegate;
+@protocol NSEStreamsOpeningDelegate;
 
+
+
+
+
+
+
+
+
+
+@protocol NSEStreamsOpeningDelegate <NSEOperationDelegate>
+
+@end
+
+
+
+@interface NSEStreamsOpening : NSEOperation <NSEStreamsOpeningDelegate>
+
+@end
 
 
 
@@ -32,7 +52,12 @@
 @property (readonly) NSInputStream *inputStream;
 @property (readonly) NSOutputStream *outputStream;
 
+@property (weak, readonly) NSEStreamsOpening *opening;
+
 - (instancetype)initWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream;
 - (instancetype)initToHostWithName:(NSString *)hostname port:(NSInteger)port;
+
+- (NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout;
+- (NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
 
 @end

@@ -15,10 +15,31 @@
 
 
 
+@interface NSEStreamsOpening ()
+
+@end
+
+
+
+@implementation NSEStreamsOpening
+
+@end
+
+
+
+
+
+
+
+
+
+
 @interface NSEStreams ()
 
 @property NSInputStream *inputStream;
 @property NSOutputStream *outputStream;
+
+@property (weak) NSEStreamsOpening *opening;
 
 @end
 
@@ -45,6 +66,18 @@
     
     self = [self initWithInputStream:inputStream outputStream:outputStream];
     return self;
+}
+
+- (NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout {
+    self.opening = NSEStreamsOpening.new.nseAutorelease;
+    [self addOperation:self.opening];
+    return self.opening;
+}
+
+-(NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
+    NSEStreamsOpening *operation = [self openWithTimeout:timeout];
+    operation.completionBlock = completion;
+    return operation;
 }
 
 @end
