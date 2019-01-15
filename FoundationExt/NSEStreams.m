@@ -32,6 +32,9 @@
     self.inputStream = inputStream;
     self.outputStream = outputStream;
     
+    [inputStream.nseOperation.delegates addObject:self.delegates];
+    [outputStream.nseOperation.delegates addObject:self.delegates];
+    
     return self;
 }
 
