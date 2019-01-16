@@ -22,7 +22,6 @@
 @property (nonatomic) NSMutableOrderedSet<NSEOperationDelegate> *delegates;
 @property (nonatomic) NSProgress *progress;
 @property (nonatomic) NSOperationQueue *queue;
-@property (nonatomic) NSOperationQueue *serialQueue;
 @property (nonatomic) NSNotificationCenter *center;
 @property (nonatomic) NSRunLoop *loop;
 
@@ -112,16 +111,6 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     }
     
     return _queue;
-}
-
-- (NSOperationQueue *)serialQueue {
-    if (_serialQueue) {
-    } else {
-        _serialQueue = NSOperationQueue.new;
-        _serialQueue.maxConcurrentOperationCount = 1;
-    }
-    
-    return _serialQueue;
 }
 
 - (NSNotificationCenter *)center {
