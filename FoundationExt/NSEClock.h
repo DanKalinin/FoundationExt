@@ -7,9 +7,21 @@
 
 #import "NSEOperation.h"
 
+@class NSEClock;
+
+@protocol NSEClockDelegate;
+
 
 
 @protocol NSEClockDelegate <NSEOperationDelegate>
+
+@optional
+- (void)nseClockDidUpdateState:(NSEClock *)clock;
+- (void)nseClockDidStart:(NSEClock *)clock;
+- (void)nseClockDidCancel:(NSEClock *)clock;
+- (void)nseClockDidFinish:(NSEClock *)clock;
+
+- (void)nseClockDidUpdateProgress:(NSEClock *)clock;
 
 @end
 
@@ -17,6 +29,7 @@
 
 @interface NSEClock : NSEOperation <NSEClockDelegate>
 
+@property (readonly) NSMutableOrderedSet<NSEClockDelegate> *delegates;
 @property (readonly) NSTimeInterval timeout;
 @property (readonly) NSUInteger repeats;
 
