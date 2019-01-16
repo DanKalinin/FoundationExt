@@ -30,6 +30,8 @@
 
 @interface NSEStreamsOpening : NSEOperation <NSEStreamsOpeningDelegate>
 
+@property (readonly) NSTimeInterval timeout;
+
 @end
 
 

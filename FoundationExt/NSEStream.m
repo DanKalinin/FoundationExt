@@ -62,6 +62,34 @@
 
 @implementation NSEStreamOpening
 
+@dynamic parent;
+@dynamic delegates;
+
+- (void)updateState:(NSEOperationState)state {
+    [super updateState:state];
+    
+    [self.delegates nseStreamOpeningDidUpdateState:self];
+    if (state == NSEOperationStateDidStart) {
+        [self.delegates nseStreamOpeningDidStart:self];
+    } else if (state == NSEOperationStateDidCancel) {
+        [self.delegates nseStreamOpeningDidCancel:self];
+    } else if (state == NSEOperationStateDidFinish) {
+        [self.delegates nseStreamOpeningDidFinish:self];
+    }
+}
+
+#pragma mark - NSEStreamOpeningDelegate
+
+- (void)nseStreamOpeningDidStart:(NSEStreamOpening *)opening {
+    [self.parent.object scheduleInRunLoop:NSRunLoop.currentRunLoop forMode:NSDefaultRunLoopMode];
+    [self.parent.object open];
+}
+
+- (void)nseStreamOpeningDidCancel:(NSEStreamOpening *)opening {
+    [self.parent.object close];
+    [self finish];
+}
+
 @end
 
 
@@ -95,7 +123,7 @@
 }
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout {
-    self.opening = NSEStreamOpening.new.nseAutorelease;
+    self.opening = [NSEStreamOpening.alloc initWithTimeout:timeout].nseAutorelease;
     [self addOperation:self.opening];
     return self.opening;
 }
@@ -111,12 +139,23 @@
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
     if (eventCode == NSStreamEventOpenCompleted) {
         [self.delegates nseStreamOpenCompleted:aStream];
+        
+        if (self.opening.isFinished) {
+        } else {
+            [self.opening finish];
+        }
     } else if (eventCode == NSStreamEventHasBytesAvailable) {
         [self.delegates nseStreamHasBytesAvailable:aStream];
     } else if (eventCode == NSStreamEventHasSpaceAvailable) {
         [self.delegates nseStreamHasSpaceAvailable:aStream];
     } else if (eventCode == NSStreamEventErrorOccurred) {
         [self.delegates nseStreamErrorOccurred:aStream];
+        
+        if (self.opening.isFinished) {
+        } else {
+            self.opening.error = self.object.streamError;
+            [self.opening finish];
+        }
     } else if (eventCode == NSStreamEventEndEncountered) {
         [self.delegates nseStreamEndEncountered:aStream];
     }

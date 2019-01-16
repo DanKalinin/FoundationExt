@@ -6,6 +6,7 @@
 //
 
 #import "NSEObjectOperation.h"
+#import "NSETimeoutOperation.h"
 
 @class NSEStream;
 @class NSEStreamOpening;
@@ -57,13 +58,24 @@
 
 
 
-@protocol NSEStreamOpeningDelegate <NSEOperationDelegate>
+@protocol NSEStreamOpeningDelegate <NSETimeoutOperationDelegate>
+
+@optional
+- (void)nseStreamOpeningDidUpdateState:(NSEStreamOpening *)opening;
+- (void)nseStreamOpeningDidStart:(NSEStreamOpening *)opening;
+- (void)nseStreamOpeningDidCancel:(NSEStreamOpening *)opening;
+- (void)nseStreamOpeningDidFinish:(NSEStreamOpening *)opening;
+
+- (void)nseStreamOpeningDidUpdateProgress:(NSEStreamOpening *)opening;
 
 @end
 
 
 
-@interface NSEStreamOpening : NSEOperation <NSEStreamOpeningDelegate>
+@interface NSEStreamOpening : NSETimeoutOperation <NSEStreamOpeningDelegate>
+
+@property (readonly) NSEStreamOperation *parent;
+@property (readonly) NSMutableOrderedSet<NSEStreamOpeningDelegate> *delegates;
 
 @end
 

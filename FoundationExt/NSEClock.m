@@ -58,12 +58,6 @@
     [self finish];
 }
 
-- (void)cancel {
-    [super cancel];
-    
-    [self finish];
-}
-
 - (void)updateState:(NSEOperationState)state {
     [super updateState:state];
     
@@ -93,6 +87,12 @@
     NSEClock *operation = [self clockWithTimeout:timeout repeats:repeats];
     operation.completionBlock = completion;
     return operation;
+}
+
+#pragma mark - NSEClockDelegate
+
+- (void)nseClockDidCancel:(NSEClock *)clock {
+    [self finish];
 }
 
 @end
