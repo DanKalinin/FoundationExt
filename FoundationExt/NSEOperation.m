@@ -149,7 +149,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 }
 
 - (void)main {
-    [self finish];
+    
 }
 
 - (void)cancel {
