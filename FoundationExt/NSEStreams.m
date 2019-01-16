@@ -23,6 +23,10 @@
 
 @implementation NSEStreamsOpening
 
+- (void)main {
+    
+}
+
 @end
 
 
