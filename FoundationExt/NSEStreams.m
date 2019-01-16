@@ -23,10 +23,6 @@
 
 @implementation NSEStreamsOpening
 
-- (void)main {
-    
-}
-
 @end
 
 
@@ -82,6 +78,11 @@
     NSEStreamsOpening *operation = [self openWithTimeout:timeout];
     operation.completionBlock = completion;
     return operation;
+}
+
+- (void)close {
+    [self.inputStream close];
+    [self.outputStream close];
 }
 
 @end

@@ -62,4 +62,6 @@
 - (NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout;
 - (NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
 
+- (void)close;
+
 @end
