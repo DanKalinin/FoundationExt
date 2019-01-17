@@ -146,10 +146,7 @@
     if (eventCode == NSStreamEventOpenCompleted) {
         [self.delegates nseStreamOpenCompleted:aStream];
         
-        if (self.opening.isFinished) {
-        } else {
-            [self.opening finish];
-        }
+        [self.opening finish];
     } else if (eventCode == NSStreamEventHasBytesAvailable) {
         [self.delegates nseStreamHasBytesAvailable:aStream];
     } else if (eventCode == NSStreamEventHasSpaceAvailable) {
@@ -157,11 +154,8 @@
     } else if (eventCode == NSStreamEventErrorOccurred) {
         [self.delegates nseStreamErrorOccurred:aStream];
         
-        if (self.opening.isFinished) {
-        } else {
-            self.opening.error = self.object.streamError;
-            [self.opening finish];
-        }
+        self.opening.error = self.object.streamError;
+        [self.opening finish];
     } else if (eventCode == NSStreamEventEndEncountered) {
         [self.delegates nseStreamEndEncountered:aStream];
     }

@@ -56,10 +56,18 @@
     [self.clock.delegates addObject:self];
 }
 
+- (void)nseTimeoutOperationDidCancel:(NSETimeoutOperation *)operation {
+    [self.clock cancel];
+}
+
+- (void)nseTimeoutOperationDidFinish:(NSETimeoutOperation *)operation {
+    [self.clock cancel];
+}
+
 #pragma mark - NSEClockDelegate
 
 - (void)nseClockDidFinish:(NSEClock *)clock {
-    if (self.isFinished) {
+    if (clock.isCancelled) {
     } else {
         self.error = [NSError errorWithDomain:NSEOperationErrorDomain code:NSEOperationErrorTimeout userInfo:nil];
         [self finish];
