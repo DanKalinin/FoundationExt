@@ -153,7 +153,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 //}
 
 - (void)cancel {
-    if (self.isCancelled) {
+    if (self.isCancelled || self.isFinished) {
     } else {
         self.isCancelled = YES;
         
@@ -185,9 +185,9 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
         [self.delegates nseOperationDidFinish:self];
         [self.delegates.nseOperation.invocationQueue nseAddOperationWithBlock:self.completion waitUntilFinished:YES];
         
+        self.completion = nil;
         self.stateBlock = nil;
         self.progressBlock = nil;
-        self.completionBlock = nil;
         
         [self.center removeObserver:self];
     }

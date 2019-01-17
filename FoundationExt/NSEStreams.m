@@ -77,14 +77,10 @@
 - (void)nseStreamOpeningDidFinish:(NSEStreamOpening *)opening {
     if (opening.error) {
         self.error = opening.error;
-        [self.inputStreamOpening cancel];
-        NSLog(@"status - %i", (int)self.parent.inputStream.streamStatus);
-        [self.outputStreamOpening cancel];
-        NSLog(@"status - %i", (int)self.parent.outputStream.streamStatus);
+        [self.parent close];
     }
     
     if (self.inputStreamOpening.isFinished && self.outputStreamOpening.isFinished) {
-        NSLog(@"finish");
         [self finish];
     }
 }
