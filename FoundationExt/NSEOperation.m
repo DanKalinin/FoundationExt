@@ -153,17 +153,23 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 }
 
 - (void)cancel {
-    self.isCancelled = YES;
-    
-    [self.operation cancel];
-    
-    [self updateState:NSEOperationStateDidCancel];
+    if (self.isCancelled) {
+    } else {
+        self.isCancelled = YES;
+        
+        [self.operation cancel];
+        
+        [self updateState:NSEOperationStateDidCancel];
+    }
 }
 
 - (void)finish {
-    self.isExecuting = NO;
-    self.isFinished = YES;
-    [self updateState:NSEOperationStateDidFinish];
+    if (self.isFinished) {
+    } else {
+        self.isExecuting = NO;
+        self.isFinished = YES;
+        [self updateState:NSEOperationStateDidFinish];
+    }
 }
 
 - (void)updateState:(NSEOperationState)state {

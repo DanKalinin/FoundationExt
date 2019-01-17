@@ -24,13 +24,27 @@
 
 @protocol NSEStreamsOpeningDelegate <NSEOperationDelegate>
 
+@optional
+- (void)nseStreamsOpeningDidUpdateState:(NSEStreamsOpening *)opening;
+- (void)nseStreamsOpeningDidStart:(NSEStreamsOpening *)opening;
+- (void)nseStreamsOpeningDidCancel:(NSEStreamsOpening *)opening;
+- (void)nseStreamsOpeningDidFinish:(NSEStreamsOpening *)opening;
+
+- (void)nseStreamsOpeningDidUpdateProgress:(NSEStreamsOpening *)opening;
+
 @end
 
 
 
-@interface NSEStreamsOpening : NSEOperation <NSEStreamsOpeningDelegate>
+@interface NSEStreamsOpening : NSEOperation <NSEStreamsOpeningDelegate, NSEStreamOpeningDelegate>
 
+@property (readonly) NSEStreams *parent;
+@property (readonly) NSMutableOrderedSet<NSEStreamsOpeningDelegate> *delegates;
 @property (readonly) NSTimeInterval timeout;
+@property (readonly) NSEStreamOpening *inputStreamOpening;
+@property (readonly) NSEStreamOpening *outputStreamOpening;
+
+- (instancetype)initWithTimeout:(NSTimeInterval)timeout;
 
 @end
 
@@ -53,8 +67,6 @@
 
 @property (readonly) NSInputStream *inputStream;
 @property (readonly) NSOutputStream *outputStream;
-
-@property (weak, readonly) NSEStreamsOpening *opening;
 
 - (instancetype)initWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream;
 - (instancetype)initToHostWithName:(NSString *)hostname port:(NSInteger)port;

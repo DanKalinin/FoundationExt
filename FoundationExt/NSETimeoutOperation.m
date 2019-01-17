@@ -43,6 +43,12 @@
     }
 }
 
+- (void)updateProgress:(int64_t)completedUnitCount {
+    [super updateProgress:completedUnitCount];
+    
+    [self.delegates nseTimeoutOperationDidUpdateProgress:self];
+}
+
 #pragma mark - NSETimeoutOperationDelegate
 
 - (void)nseTimeoutOperationDidStart:(NSETimeoutOperation *)operation {

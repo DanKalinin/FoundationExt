@@ -78,6 +78,12 @@
     }
 }
 
+- (void)updateProgress:(int64_t)completedUnitCount {
+    [super updateProgress:completedUnitCount];
+    
+    [self.delegates nseStreamOpeningDidUpdateProgress:self];
+}
+
 #pragma mark - NSEStreamOpeningDelegate
 
 - (void)nseStreamOpeningDidStart:(NSEStreamOpening *)opening {
