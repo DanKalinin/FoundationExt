@@ -70,7 +70,7 @@
     if (clock.isCancelled) {
     } else {
         self.error = [NSError errorWithDomain:NSEOperationErrorDomain code:NSEOperationErrorTimeout userInfo:nil];
-        [self finish];
+        [self cancel];
     }
 }
 

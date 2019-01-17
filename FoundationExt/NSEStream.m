@@ -136,7 +136,7 @@
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
     NSEStreamOpening *operation = [self openWithTimeout:timeout];
-    operation.completionBlock = completion;
+    operation.completion = completion;
     return operation;
 }
 
@@ -155,7 +155,7 @@
         [self.delegates nseStreamErrorOccurred:aStream];
         
         self.opening.error = self.object.streamError;
-        [self.opening finish];
+        [self.opening cancel];
     } else if (eventCode == NSStreamEventEndEncountered) {
         [self.delegates nseStreamEndEncountered:aStream];
     }

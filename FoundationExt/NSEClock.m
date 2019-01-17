@@ -85,7 +85,7 @@
 
 - (instancetype)clockWithTimeout:(NSTimeInterval)timeout repeats:(NSUInteger)repeats completion:(NSEBlock)completion {
     NSEClock *operation = [self clockWithTimeout:timeout repeats:repeats];
-    operation.completionBlock = completion;
+    operation.completion = completion;
     return operation;
 }
 
