@@ -77,9 +77,6 @@
 - (void)nseStreamOpeningDidFinish:(NSEStreamOpening *)opening {
     if (self.inputStreamOpening.isFinished && self.outputStreamOpening.isFinished) {
         [self finish];
-    } else if (opening.error) {
-        self.error = opening.error;
-        [self cancel];
     }
 }
 
