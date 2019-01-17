@@ -75,7 +75,16 @@
 #pragma mark - NSEStreamOpeningDelegate
 
 - (void)nseStreamOpeningDidFinish:(NSEStreamOpening *)opening {
+    if (opening.error) {
+        self.error = opening.error;
+        [self.inputStreamOpening cancel];
+        NSLog(@"status - %i", (int)self.parent.inputStream.streamStatus);
+        [self.outputStreamOpening cancel];
+        NSLog(@"status - %i", (int)self.parent.outputStream.streamStatus);
+    }
+    
     if (self.inputStreamOpening.isFinished && self.outputStreamOpening.isFinished) {
+        NSLog(@"finish");
         [self finish];
     }
 }
@@ -131,7 +140,7 @@
 
 - (NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
     NSEStreamsOpening *operation = [self openWithTimeout:timeout];
-    operation.completionBlock = completion;
+    operation.completion = completion;
     return operation;
 }
 

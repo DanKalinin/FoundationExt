@@ -60,6 +60,7 @@ typedef NS_ENUM(NSUInteger, NSEOperationState) {
 @property (nonatomic) BOOL isAsynchronous;
 @property (nonatomic) BOOL isReady;
 
+@property (copy) NSEBlock completion;
 @property (copy) NSEBlock stateBlock;
 @property (copy) NSEBlock progressBlock;
 
