@@ -114,6 +114,10 @@
     }
 }
 
+- (void)nseInputStreamReadingDidCancel:(NSEInputStreamReading *)reading {
+    [self finish];
+}
+
 @end
 
 
