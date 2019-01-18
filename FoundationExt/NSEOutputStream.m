@@ -97,7 +97,11 @@
 #pragma mark - NSEOutputStreamWritingDelegate
 
 - (void)nseOutputStreamWritingDidStart:(NSEOutputStreamWriting *)writing {
+    self.progress.totalUnitCount = self.data.length;
     
+    if (self.parent.object.hasSpaceAvailable) {
+        [self.parent stream:self.parent.object handleEvent:NSStreamEventHasSpaceAvailable];
+    }
 }
 
 @end
@@ -113,6 +117,8 @@
 
 @interface NSEOutputStreamOperation ()
 
+@property (weak) NSEOutputStreamWriting *writing;
+
 @end
 
 
@@ -123,11 +129,11 @@
 @dynamic object;
 
 - (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout {
-    NSEOutputStreamWriting *writing = [NSEOutputStreamWriting.alloc initWithData:data timeout:timeout];
+    self.writing = [NSEOutputStreamWriting.alloc initWithData:data timeout:timeout].nseAutorelease;
     
-    [self addOperation:writing];
+    [self addOperation:self.writing];
     
-    return writing;
+    return self.writing;
 }
 
 - (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
@@ -147,10 +153,31 @@
         [self.delegates nseOutputStreamOpenCompleted:aStream];
     } else if (eventCode == NSStreamEventHasSpaceAvailable) {
         [self.delegates nseOutputStreamHasSpaceAvailable:aStream];
+        
+        if (self.writing.data.length > 0) {
+            NSInteger result = [aStream write:self.writing.data.bytes maxLength:self.writing.data.length];
+            if (result > 0) {
+                NSRange range = NSMakeRange(0, result);
+                [self.writing.data replaceBytesInRange:range withBytes:NULL length:0];
+                
+                int64_t completedUnitCount = self.writing.progress.completedUnitCount + result;
+                [self.writing updateProgress:completedUnitCount];
+                
+                if (self.writing.data.length == 0) {
+                    [self.writing finish];
+                }
+            }
+        }
     } else if (eventCode == NSStreamEventErrorOccurred) {
         [self.delegates nseOutputStreamErrorOccurred:aStream];
+        
+        self.writing.error = aStream.streamError;
+        [self.writing cancel];
     } else if (eventCode == NSStreamEventEndEncountered) {
         [self.delegates nseOutputStreamEndEncountered:aStream];
+        
+        self.writing.error = [NSError errorWithDomain:NSEStreamErrorDomain code:NSEStreamErrorAtEnd userInfo:nil];
+        [self.writing cancel];
     }
 }
 

@@ -43,6 +43,8 @@
 
 @implementation NSEStream
 
+NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
+
 @end
 
 
@@ -162,6 +164,9 @@
         [self.opening cancel];
     } else if (eventCode == NSStreamEventEndEncountered) {
         [self.delegates nseStreamEndEncountered:aStream];
+        
+        self.opening.error = [NSError errorWithDomain:NSEStreamErrorDomain code:NSEStreamErrorAtEnd userInfo:nil];
+        [self.opening cancel];
     }
 }
 

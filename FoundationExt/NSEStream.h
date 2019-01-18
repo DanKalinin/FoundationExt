@@ -41,6 +41,13 @@
 
 @interface NSEStream : NSStream
 
+extern NSErrorDomain const NSEStreamErrorDomain;
+
+NS_ERROR_ENUM(NSEStreamErrorDomain) {
+    NSEStreamErrorUnknown = 0,
+    NSEStreamErrorAtEnd = 1
+};
+
 @end
 
 

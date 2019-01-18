@@ -101,6 +101,7 @@
 @property (readonly) NSMutableOrderedSet<NSEOutputStreamDelegate> *delegates;
 
 @property (weak, readonly) NSOutputStream *object;
+@property (weak, readonly) NSEOutputStreamWriting *writing;
 
 - (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout;
 - (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
