@@ -70,6 +70,7 @@
 @property (readonly) NSEInputStreamOperation *parent;
 @property (readonly) NSMutableOrderedSet<NSEInputStreamReadingDelegate> *delegates;
 @property (readonly) NSUInteger length;
+@property (readonly) NSMutableData *data;
 
 - (instancetype)initWithLength:(NSUInteger)length timeout:(NSTimeInterval)timeout;
 

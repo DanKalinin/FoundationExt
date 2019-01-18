@@ -57,6 +57,7 @@
 @interface NSEInputStreamReading ()
 
 @property NSUInteger length;
+@property NSMutableData *data;
 
 @end
 
@@ -92,6 +93,12 @@
     [super updateProgress:completedUnitCount];
     
     [self.delegates nseInputStreamReadingDidUpdateProgress:self];
+}
+
+#pragma mark - NSEInputStreamReadingDelegate
+
+- (void)nseInputStreamReadingDidStart:(NSEInputStreamReading *)reading {
+    
 }
 
 @end
