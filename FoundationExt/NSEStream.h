@@ -46,8 +46,7 @@ extern NSErrorDomain const NSEStreamErrorDomain;
 NS_ERROR_ENUM(NSEStreamErrorDomain) {
     NSEStreamErrorUnknown = 0,
     NSEStreamErrorNotOpen = 1,
-    NSEStreamErrorOpen = 2,
-    NSEStreamErrorAtEnd = 3
+    NSEStreamErrorAtEnd = 2
 };
 
 @end
