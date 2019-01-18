@@ -99,10 +99,11 @@
 
 @interface NSEInputStreamOperation : NSEStreamOperation <NSEInputStreamDelegate>
 
+@property (weak) NSEInputStreamReading *reading;
+
 @property (readonly) NSMutableOrderedSet<NSEInputStreamDelegate> *delegates;
 
 @property (weak, readonly) NSInputStream *object;
-@property (weak, readonly) NSEInputStreamReading *reading;
 
 - (NSEInputStreamReading *)readDataOfLength:(NSUInteger)length timeout:(NSTimeInterval)timeout;
 - (NSEInputStreamReading *)readDataOfLength:(NSUInteger)length timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;

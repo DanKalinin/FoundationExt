@@ -99,6 +99,8 @@
 
 - (void)nseInputStreamReadingDidStart:(NSEInputStreamReading *)reading {
     if (self.parent.object.streamStatus == NSStreamStatusOpen) {
+        self.parent.reading = self;
+        
         self.progress.totalUnitCount = self.length;
         
         if (self.parent.object.hasBytesAvailable) {
@@ -123,8 +125,6 @@
 
 @interface NSEInputStreamOperation ()
 
-@property (weak) NSEInputStreamReading *reading;
-
 @end
 
 
@@ -135,11 +135,11 @@
 @dynamic object;
 
 - (NSEInputStreamReading *)readDataOfLength:(NSUInteger)length timeout:(NSTimeInterval)timeout {
-    self.reading = [NSEInputStreamReading.alloc initWithLength:length timeout:timeout].nseAutorelease;
+    NSEInputStreamReading *reading = [NSEInputStreamReading.alloc initWithLength:length timeout:timeout];
     
-    [self addOperation:self.reading];
+    [self addOperation:reading];
     
-    return self.reading;
+    return reading;
 }
 
 - (NSEInputStreamReading *)readDataOfLength:(NSUInteger)length timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {

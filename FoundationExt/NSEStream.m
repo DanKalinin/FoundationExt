@@ -89,6 +89,8 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
 #pragma mark - NSEStreamOpeningDelegate
 
 - (void)nseStreamOpeningDidStart:(NSEStreamOpening *)opening {
+    self.parent.opening = self;
+    
     [self.parent.object scheduleInRunLoop:self.loop forMode:NSDefaultRunLoopMode];
     [self.parent.object open];
 }
@@ -111,8 +113,6 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
 
 @interface NSEStreamOperation ()
 
-@property (weak) NSEStreamOpening *opening;
-
 @end
 
 
@@ -131,11 +131,11 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
 }
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout {
-    self.opening = [NSEStreamOpening.alloc initWithTimeout:timeout].nseAutorelease;
+    NSEStreamOpening *opening = [NSEStreamOpening.alloc initWithTimeout:timeout];
     
-    [self addOperation:self.opening];
+    [self addOperation:opening];
     
-    return self.opening;
+    return opening;
 }
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
