@@ -12,6 +12,7 @@
 @class NSEOutputStreamOperation;
 
 @protocol NSEOutputStreamDelegate;
+@protocol NSEOutputStreamWritingDelegate;
 
 
 
@@ -50,8 +51,27 @@
 
 
 
+@protocol NSEOutputStreamWritingDelegate <NSETimeoutOperationDelegate>
 
-@interface NSEOutputStreamWriting : NSETimeoutOperation
+@optional
+- (void)nseOutputStreamWritingDidUpdateState:(NSEOutputStreamWriting *)writing;
+- (void)nseOutputStreamWritingDidStart:(NSEOutputStreamWriting *)writing;
+- (void)nseOutputStreamWritingDidCancel:(NSEOutputStreamWriting *)writing;
+- (void)nseOutputStreamWritingDidFinish:(NSEOutputStreamWriting *)writing;
+
+- (void)nseOutputStreamWritingDidUpdateProgress:(NSEOutputStreamWriting *)writing;
+
+@end
+
+
+
+@interface NSEOutputStreamWriting : NSETimeoutOperation <NSEOutputStreamWritingDelegate>
+
+@property (readonly) NSEOutputStreamOperation *parent;
+@property (readonly) NSMutableOrderedSet<NSEOutputStreamWritingDelegate> *delegates;
+@property (readonly) NSMutableData *data;
+
+- (instancetype)initWithData:(NSMutableData *)data timeout:(NSTimeInterval)timeout;
 
 @end
 
@@ -64,7 +84,7 @@
 
 
 
-@protocol NSEOutputStreamDelegate <NSEStreamDelegate>
+@protocol NSEOutputStreamDelegate <NSEStreamDelegate, NSEOutputStreamWritingDelegate>
 
 @optional
 - (void)nseOutputStreamOpenCompleted:(NSOutputStream *)outputStream;
@@ -81,5 +101,8 @@
 @property (readonly) NSMutableOrderedSet<NSEOutputStreamDelegate> *delegates;
 
 @property (weak, readonly) NSOutputStream *object;
+
+- (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout;
+- (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
 
 @end

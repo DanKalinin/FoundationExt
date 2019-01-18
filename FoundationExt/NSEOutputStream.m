@@ -50,6 +50,57 @@
 
 
 
+@interface NSEOutputStreamWriting ()
+
+@property NSMutableData *data;
+
+@end
+
+
+
+@implementation NSEOutputStreamWriting
+
+@dynamic parent;
+@dynamic delegates;
+
+- (instancetype)initWithData:(NSMutableData *)data timeout:(NSTimeInterval)timeout {
+    self = [super initWithTimeout:timeout];
+    
+    self.data = data;
+    
+    return self;
+}
+
+- (void)updateState:(NSEOperationState)state {
+    [super updateState:state];
+    
+    [self.delegates nseOutputStreamWritingDidUpdateState:self];
+    if (state == NSEOperationStateDidStart) {
+        [self.delegates nseOutputStreamWritingDidStart:self];
+    } else if (state == NSEOperationStateDidCancel) {
+        [self.delegates nseOutputStreamWritingDidCancel:self];
+    } else if (state == NSEOperationStateDidFinish) {
+        [self.delegates nseOutputStreamWritingDidFinish:self];
+    }
+}
+
+- (void)updateProgress:(int64_t)completedUnitCount {
+    [super updateProgress:completedUnitCount];
+    
+    [self.delegates nseOutputStreamWritingDidUpdateProgress:self];
+}
+
+@end
+
+
+
+
+
+
+
+
+
+
 @interface NSEOutputStreamOperation ()
 
 @end
@@ -60,6 +111,22 @@
 
 @dynamic delegates;
 @dynamic object;
+
+- (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout {
+    NSEOutputStreamWriting *writing = [NSEOutputStreamWriting.alloc initWithData:data timeout:timeout];
+    
+    [self addOperation:writing];
+    
+    return writing;
+}
+
+- (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
+    NSEOutputStreamWriting *writing = [self writeData:data timeout:timeout];
+    
+    writing.completion = completion;
+    
+    return writing;
+}
 
 #pragma mark - NSStreamDelegate
 

@@ -88,7 +88,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     if (_delegates) {
     } else {
         _delegates = (id)NSMutableOrderedSet.nseWeakOrderedSet;
-        _delegates.nseOperation.invocationQueue = NSOperationQueue.currentQueue;
+        _delegates.nseOperation.invocationQueue = NSOperationQueue.mainQueue; // TODO: .currentQueue
         [_delegates addObject:self];
     }
     
@@ -125,7 +125,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 - (NSRunLoop *)loop {
     if (_loop) {
     } else {
-        _loop = NSRunLoop.currentRunLoop;
+        _loop = NSRunLoop.currentRunLoop; // TODO: -run
     }
     
     return _loop;

@@ -69,7 +69,6 @@
 
 @property (readonly) NSEInputStreamOperation *parent;
 @property (readonly) NSMutableOrderedSet<NSEInputStreamReadingDelegate> *delegates;
-
 @property (readonly) NSUInteger length;
 
 - (instancetype)initWithLength:(NSUInteger)length timeout:(NSTimeInterval)timeout;
@@ -85,7 +84,7 @@
 
 
 
-@protocol NSEInputStreamDelegate <NSEStreamDelegate>
+@protocol NSEInputStreamDelegate <NSEStreamDelegate, NSEInputStreamReadingDelegate>
 
 @optional
 - (void)nseInputStreamOpenCompleted:(NSInputStream *)inputStream;
