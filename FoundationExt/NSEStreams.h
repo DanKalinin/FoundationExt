@@ -5,7 +5,8 @@
 //  Created by Dan Kalinin on 1/15/19.
 //
 
-#import "NSEStream.h"
+#import "NSEInputStream.h"
+#import "NSEOutputStream.h"
 
 @class NSEStreams;
 @class NSEStreamsOpening;
