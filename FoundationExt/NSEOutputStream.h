@@ -8,6 +8,7 @@
 #import "NSEStream.h"
 
 @class NSEOutputStream;
+@class NSEOutputStreamWriting;
 @class NSEOutputStreamOperation;
 
 @protocol NSEOutputStreamDelegate;
@@ -37,6 +38,20 @@
 
 
 @interface NSEOutputStream : NSOutputStream
+
+@end
+
+
+
+
+
+
+
+
+
+
+
+@interface NSEOutputStreamWriting : NSETimeoutOperation
 
 @end
 
