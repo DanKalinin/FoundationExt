@@ -74,8 +74,6 @@
 
 - (instancetype)initWithLength:(NSUInteger)length timeout:(NSTimeInterval)timeout;
 
-+ (instancetype)readDataOfLength:(NSUInteger)length timeout:(NSTimeInterval)timeout;
-
 @end
 
 
@@ -104,5 +102,9 @@
 @property (readonly) NSMutableOrderedSet<NSEInputStreamDelegate> *delegates;
 
 @property (weak, readonly) NSInputStream *object;
+@property (weak, readonly) NSEInputStreamReading *reading;
+
+- (NSEInputStreamReading *)readDataOfLength:(NSUInteger)length timeout:(NSTimeInterval)timeout;
+- (NSEInputStreamReading *)readDataOfLength:(NSUInteger)length timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
 
 @end

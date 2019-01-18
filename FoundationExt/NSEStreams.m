@@ -120,19 +120,19 @@
 }
 
 - (NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout {
-    NSEStreamsOpening *operation = [NSEStreamsOpening.alloc initWithTimeout:timeout];
+    NSEStreamsOpening *opening = [NSEStreamsOpening.alloc initWithTimeout:timeout];
     
-    [self addOperation:operation];
+    [self addOperation:opening];
     
-    return operation;
+    return opening;
 }
 
 - (NSEStreamsOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
-    NSEStreamsOpening *operation = [self openWithTimeout:timeout];
+    NSEStreamsOpening *opening = [self openWithTimeout:timeout];
     
-    operation.completion = completion;
+    opening.completion = completion;
     
-    return operation;
+    return opening;
 }
 
 - (void)close {

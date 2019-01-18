@@ -137,11 +137,11 @@
 }
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
-    NSEStreamOpening *operation = [self openWithTimeout:timeout];
+    NSEStreamOpening *opening = [self openWithTimeout:timeout];
     
-    operation.completion = completion;
+    opening.completion = completion;
     
-    return operation;
+    return opening;
 }
 
 #pragma mark - NSStreamDelegate
