@@ -99,9 +99,18 @@
 - (void)nseOutputStreamWritingDidStart:(NSEOutputStreamWriting *)writing {
     self.progress.totalUnitCount = self.data.length;
     
-    if (self.parent.object.hasSpaceAvailable) {
-        [self.parent stream:self.parent.object handleEvent:NSStreamEventHasSpaceAvailable];
+    if (self.parent.object.streamStatus == NSStreamStatusOpen) {
+        if (self.parent.object.hasSpaceAvailable) {
+            [self.parent stream:self.parent.object handleEvent:NSStreamEventHasSpaceAvailable];
+        }
+    } else {
+        self.error = [NSError errorWithDomain:NSEStreamErrorDomain code:NSEStreamErrorNotOpen userInfo:nil];
+        [self cancel];
     }
+}
+
+- (void)nseOutputStreamWritingDidCancel:(NSEOutputStreamWriting *)writing {
+    [self finish];
 }
 
 @end
