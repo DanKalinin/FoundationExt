@@ -130,13 +130,17 @@
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout {
     self.opening = [NSEStreamOpening.alloc initWithTimeout:timeout].nseAutorelease;
+    
     [self addOperation:self.opening];
+    
     return self.opening;
 }
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
     NSEStreamOpening *operation = [self openWithTimeout:timeout];
+    
     operation.completion = completion;
+    
     return operation;
 }
 

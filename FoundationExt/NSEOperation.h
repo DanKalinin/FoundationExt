@@ -52,7 +52,6 @@ typedef NS_ENUM(NSUInteger, NSEOperationState) {
 
 @property NSEOperationState state;
 @property NSError *error;
-@property NSEOperation *operation;
 
 @property (nonatomic) BOOL isCancelled;
 @property (nonatomic) BOOL isExecuting;

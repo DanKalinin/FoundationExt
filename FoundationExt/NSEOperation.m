@@ -152,9 +152,6 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     if (self.isCancelled || self.isFinished) {
     } else {
         self.isCancelled = YES;
-        
-        [self.operation cancel];
-        
         [self updateState:NSEOperationStateDidCancel];
     }
 }
