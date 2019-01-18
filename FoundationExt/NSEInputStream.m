@@ -101,9 +101,9 @@
     if (self.parent.object.streamStatus == NSStreamStatusOpen) {
         self.parent.reading = self;
         
-        self.data = NSMutableData.data;
-        
         self.progress.totalUnitCount = self.length;
+        
+        self.data = NSMutableData.data;
         
         if (self.parent.object.hasBytesAvailable) {
             [self.parent stream:self.parent.object handleEvent:NSStreamEventHasBytesAvailable];
