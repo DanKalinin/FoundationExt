@@ -20,6 +20,10 @@
 
 @dynamic nseOperation;
 
+- (Class)nseOperationClass {
+    return NSEOutputStreamOperation.class;
+}
+
 @end
 
 
@@ -88,6 +92,12 @@
     [super updateProgress:completedUnitCount];
     
     [self.delegates nseOutputStreamWritingDidUpdateProgress:self];
+}
+
+#pragma mark - NSEOutputStreamWritingDelegate
+
+- (void)nseOutputStreamWritingDidStart:(NSEOutputStreamWriting *)writing {
+    
 }
 
 @end
