@@ -22,7 +22,7 @@
 
 
 
-@protocol NSEStreamsOpeningDelegate <NSEOperationDelegate>
+@protocol NSEStreamsOpeningDelegate <NSETimeoutOperationDelegate>
 
 @optional
 - (void)nseStreamsOpeningDidUpdateState:(NSEStreamsOpening *)opening;
@@ -36,11 +36,10 @@
 
 
 
-@interface NSEStreamsOpening : NSEOperation <NSEStreamsOpeningDelegate, NSEStreamOpeningDelegate>
+@interface NSEStreamsOpening : NSETimeoutOperation <NSEStreamsOpeningDelegate, NSEStreamOpeningDelegate>
 
 @property (readonly) NSEStreams *parent;
 @property (readonly) NSMutableOrderedSet<NSEStreamsOpeningDelegate> *delegates;
-@property (readonly) NSTimeInterval timeout;
 @property (readonly) NSEStreamOpening *inputStreamOpening;
 @property (readonly) NSEStreamOpening *outputStreamOpening;
 

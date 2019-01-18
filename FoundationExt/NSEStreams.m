@@ -17,7 +17,6 @@
 
 @interface NSEStreamsOpening ()
 
-@property NSTimeInterval timeout;
 @property NSEStreamOpening *inputStreamOpening;
 @property NSEStreamOpening *outputStreamOpening;
 
@@ -29,14 +28,6 @@
 
 @dynamic parent;
 @dynamic delegates;
-
-- (instancetype)initWithTimeout:(NSTimeInterval)timeout {
-    self = super.init;
-    
-    self.timeout = timeout;
-    
-    return self;
-}
 
 - (void)updateState:(NSEOperationState)state {
     [super updateState:state];
@@ -75,6 +66,11 @@
 #pragma mark - NSEStreamOpeningDelegate
 
 - (void)nseStreamOpeningDidFinish:(NSEStreamOpening *)opening {
+    if (opening.error) {
+        self.error = opening.error;
+        [self cancel];
+    }
+    
     if (self.inputStreamOpening.isFinished && self.outputStreamOpening.isFinished) {
         [self finish];
     }
