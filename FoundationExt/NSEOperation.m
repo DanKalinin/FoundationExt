@@ -157,7 +157,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 }
 
 - (void)finish {
-    if (self.isFinished) {
+    if (self.isFinished || !self.isExecuting) {
     } else {
         self.isExecuting = NO;
         self.isFinished = YES;
