@@ -25,7 +25,7 @@
 
 @property (readonly) NSETimerOperation *nseOperation;
 
-+ (NSTimer *)nseScheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats;
++ (instancetype)nseScheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats;
 
 @end
 
@@ -55,13 +55,6 @@
 
 @optional
 - (void)nseTimerDidFire:(NSTimer *)timer;
-
-- (void)nseTimerDidUpdateState:(NSTimer *)timer;
-- (void)nseTimerDidStart:(NSTimer *)timer;
-- (void)nseTimerDidCancel:(NSTimer *)timer;
-- (void)nseTimerDidFinish:(NSTimer *)timer;
-
-- (void)nseTimerDidUpdateProgress:(NSTimer *)timer;
 
 @end
 

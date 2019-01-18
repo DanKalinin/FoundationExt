@@ -6,7 +6,7 @@
 //
 
 #import "NSEOperation.h"
-#import "NSEClock.h"
+#import "NSETimer.h"
 
 @class NSETimeoutOperation;
 
@@ -28,11 +28,11 @@
 
 
 
-@interface NSETimeoutOperation : NSEOperation <NSETimeoutOperationDelegate, NSEClockDelegate>
+@interface NSETimeoutOperation : NSEOperation <NSETimeoutOperationDelegate, NSETimerDelegate>
 
 @property (readonly) NSMutableOrderedSet<NSETimeoutOperationDelegate> *delegates;
 @property (readonly) NSTimeInterval timeout;
-@property (readonly) NSEClock *clock;
+@property (readonly) NSTimer *timer;
 
 - (instancetype)initWithTimeout:(NSTimeInterval)timeout;
 

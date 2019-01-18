@@ -12,7 +12,7 @@
 @interface NSETimeoutOperation ()
 
 @property NSTimeInterval timeout;
-@property NSEClock *clock;
+@property NSTimer *timer;
 
 @end
 
@@ -52,26 +52,23 @@
 #pragma mark - NSETimeoutOperationDelegate
 
 - (void)nseTimeoutOperationDidStart:(NSETimeoutOperation *)operation {
-    self.clock = [NSEClock.nseShared clockWithTimeout:self.timeout repeats:1];
-    [self.clock.delegates addObject:self];
+    self.timer = [NSTimer nseScheduledTimerWithTimeInterval:self.timeout repeats:NO];
+    [self.timer.nseOperation.delegates addObject:self];
 }
 
 - (void)nseTimeoutOperationDidCancel:(NSETimeoutOperation *)operation {
-    [self.clock cancel];
+    [self.timer invalidate];
 }
 
 - (void)nseTimeoutOperationDidFinish:(NSETimeoutOperation *)operation {
-    [self.clock cancel];
+    [self.timer invalidate];
 }
 
-#pragma mark - NSEClockDelegate
+#pragma mark - NSETimerDelegate
 
-- (void)nseClockDidFinish:(NSEClock *)clock {
-    if (clock.isCancelled) {
-    } else {
-        self.error = [NSError errorWithDomain:NSEOperationErrorDomain code:NSEOperationErrorTimeout userInfo:nil];
-        [self cancel];
-    }
+- (void)nseTimerDidFire:(NSTimer *)timer {
+    self.error = [NSError errorWithDomain:NSEOperationErrorDomain code:NSEOperationErrorTimeout userInfo:nil];
+    [self cancel];
 }
 
 @end
