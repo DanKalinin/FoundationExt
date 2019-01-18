@@ -22,6 +22,7 @@ FOUNDATION_EXPORT const unsigned char FoundationExtVersionString[];
 #import <FoundationExt/NSEError.h>
 #import <FoundationExt/NSEStream.h>
 #import <FoundationExt/NSEStreams.h>
+#import <FoundationExt/NSETimer.h>
 #import <FoundationExt/NSEClock.h>
 
 // Deprecated

@@ -125,7 +125,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 - (NSRunLoop *)loop {
     if (_loop) {
     } else {
-        _loop = NSRunLoop.mainRunLoop;
+        _loop = NSRunLoop.currentRunLoop;
     }
     
     return _loop;
@@ -147,10 +147,6 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
         }
     }
 }
-
-//- (void)main {
-//    
-//}
 
 - (void)cancel {
     if (self.isCancelled || self.isFinished) {

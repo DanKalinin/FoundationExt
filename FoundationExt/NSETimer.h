@@ -25,7 +25,7 @@
 
 @property (readonly) NSETimerOperation *nseOperation;
 
-- (instancetype)nseInitWithFireDate:(NSDate *)date interval:(NSTimeInterval)interval userInfo:(id)userInfo repeats:(BOOL)repeats;
++ (NSTimer *)nseScheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats;
 
 @end
 
@@ -56,14 +56,21 @@
 @optional
 - (void)nseTimerDidFire:(NSTimer *)timer;
 
+- (void)nseTimerDidUpdateState:(NSTimer *)timer;
+- (void)nseTimerDidStart:(NSTimer *)timer;
+- (void)nseTimerDidCancel:(NSTimer *)timer;
+- (void)nseTimerDidFinish:(NSTimer *)timer;
+
+- (void)nseTimerDidUpdateProgress:(NSTimer *)timer;
+
 @end
 
 
 
 @interface NSETimerOperation : NSEObjectOperation <NSETimerDelegate>
 
-@property (weak, readonly) NSTimer *object;
+@property (readonly) NSMutableOrderedSet<NSETimerDelegate> *delegates;
 
-- (void)fire:(NSTimer *)timer;
+@property (weak, readonly) NSTimer *object;
 
 @end

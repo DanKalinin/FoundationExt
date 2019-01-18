@@ -20,8 +20,10 @@
 
 @dynamic nseOperation;
 
-- (instancetype)nseInitWithFireDate:(NSDate *)date interval:(NSTimeInterval)interval userInfo:(id)userInfo repeats:(BOOL)repeats {
-    NSTimer *timer = [self initWithFireDate:date interval:interval target:self.nseOperation selector:@selector(fire:) userInfo:userInfo repeats:repeats];
++ (NSTimer *)nseScheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats {
+    NSTimer *timer = [NSETimer scheduledTimerWithTimeInterval:interval repeats:repeats block:^(NSTimer *timer) {
+        [timer.nseOperation.delegates nseTimerDidFire:timer];
+    }];
     return timer;
 }
 
@@ -67,10 +69,26 @@
 
 @implementation NSETimerOperation
 
+@dynamic delegates;
 @dynamic object;
 
-- (void)fire:(NSTimer *)timer {
+- (void)updateState:(NSEOperationState)state {
+    [super updateState:state];
     
+    [self.delegates nseTimerDidUpdateState:self.object];
+    if (state == NSEOperationStateDidStart) {
+        [self.delegates nseTimerDidStart:self.object];
+    } else if (state == NSEOperationStateDidCancel) {
+        [self.delegates nseTimerDidCancel:self.object];
+    } else if (state == NSEOperationStateDidFinish) {
+        [self.delegates nseTimerDidFinish:self.object];
+    }
+}
+
+- (void)updateProgress:(int64_t)completedUnitCount {
+    [super updateProgress:completedUnitCount];
+    
+    [self.delegates nseTimerDidUpdateProgress:self.object];
 }
 
 @end

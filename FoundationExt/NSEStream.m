@@ -87,7 +87,7 @@
 #pragma mark - NSEStreamOpeningDelegate
 
 - (void)nseStreamOpeningDidStart:(NSEStreamOpening *)opening {
-    [self.parent.object scheduleInRunLoop:NSRunLoop.currentRunLoop forMode:NSDefaultRunLoopMode];
+    [self.parent.object scheduleInRunLoop:self.loop forMode:NSDefaultRunLoopMode];
     [self.parent.object open];
 }
 
