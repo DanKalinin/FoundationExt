@@ -98,7 +98,16 @@
 #pragma mark - NSEInputStreamReadingDelegate
 
 - (void)nseInputStreamReadingDidStart:(NSEInputStreamReading *)reading {
-    
+    if (self.parent.object.streamStatus == NSStreamStatusOpen) {
+        self.progress.totalUnitCount = self.length;
+        
+        if (self.parent.object.hasBytesAvailable) {
+            [self.parent stream:self.parent.object handleEvent:NSStreamEventHasBytesAvailable];
+        }
+    } else {
+        self.error = [NSError errorWithDomain:NSEStreamErrorDomain code:NSEStreamErrorNotOpen userInfo:nil];
+        [self cancel];
+    }
 }
 
 @end

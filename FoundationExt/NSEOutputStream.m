@@ -97,9 +97,9 @@
 #pragma mark - NSEOutputStreamWritingDelegate
 
 - (void)nseOutputStreamWritingDidStart:(NSEOutputStreamWriting *)writing {
-    self.progress.totalUnitCount = self.data.length;
-    
     if (self.parent.object.streamStatus == NSStreamStatusOpen) {
+        self.progress.totalUnitCount = self.data.length;
+        
         if (self.parent.object.hasSpaceAvailable) {
             [self.parent stream:self.parent.object handleEvent:NSStreamEventHasSpaceAvailable];
         }
