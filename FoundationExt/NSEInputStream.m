@@ -166,17 +166,19 @@
     } else if (eventCode == NSStreamEventHasBytesAvailable) {
         [self.delegates nseInputStreamHasBytesAvailable:aStream];
         
-        NSUInteger length = self.reading.length - self.reading.data.length;
-        if (length > 0) {
-            uint8_t buffer[length];
-            NSInteger result = [aStream read:buffer maxLength:length];
-            if (result > 0) {
-                [self.reading.data appendBytes:buffer length:result];
-                
-                [self.reading updateProgress:self.reading.data.length];
-                
-                if (self.reading.data.length == self.reading.length) {
-                    [self.reading finish];
+        if (self.reading && !self.reading.isCancelled) {
+            NSUInteger length = self.reading.length - self.reading.data.length;
+            if (length > 0) {
+                uint8_t buffer[length];
+                NSInteger result = [aStream read:buffer maxLength:length];
+                if (result > 0) {
+                    [self.reading.data appendBytes:buffer length:result];
+                    
+                    [self.reading updateProgress:self.reading.data.length];
+                    
+                    if (self.reading.data.length == self.reading.length) {
+                        [self.reading finish];
+                    }
                 }
             }
         }

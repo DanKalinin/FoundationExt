@@ -163,7 +163,7 @@
     } else if (eventCode == NSStreamEventHasSpaceAvailable) {
         [self.delegates nseOutputStreamHasSpaceAvailable:aStream];
         
-        if (self.writing.data.length > 0) {
+        if (self.writing && !self.writing.isCancelled && (self.writing.data.length > 0)) {
             NSInteger result = [aStream write:self.writing.data.bytes maxLength:self.writing.data.length];
             if (result > 0) {
                 NSRange range = NSMakeRange(0, result);
