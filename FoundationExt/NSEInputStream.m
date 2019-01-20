@@ -73,6 +73,8 @@
     
     self.length = length;
     
+    self.data = NSMutableData.data;
+    
     return self;
 }
 
@@ -102,8 +104,6 @@
         self.parent.reading = self;
         
         self.progress.totalUnitCount = self.length;
-        
-        self.data = NSMutableData.data;
         
         if (self.parent.object.hasBytesAvailable) {
             [self.parent stream:self.parent.object handleEvent:NSStreamEventHasBytesAvailable];
