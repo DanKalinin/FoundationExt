@@ -132,8 +132,6 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
     
     object.delegate = self;
     
-    self.queue.maxConcurrentOperationCount = 1;
-    
     return self;
 }
 
