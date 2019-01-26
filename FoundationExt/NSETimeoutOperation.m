@@ -52,8 +52,10 @@
 #pragma mark - NSETimeoutOperationDelegate
 
 - (void)nseTimeoutOperationDidStart:(NSETimeoutOperation *)operation {
-    self.timer = [NSTimer nseScheduledTimerWithTimeInterval:self.timeout repeats:NO];
-    [self.timer.nseOperation.delegates addObject:self];
+    if (self.timeout > 0.0) {
+        self.timer = [NSTimer nseScheduledTimerWithTimeInterval:self.timeout repeats:NO];
+        [self.timer.nseOperation.delegates addObject:self];
+    }
 }
 
 - (void)nseTimeoutOperationDidCancel:(NSETimeoutOperation *)operation {
