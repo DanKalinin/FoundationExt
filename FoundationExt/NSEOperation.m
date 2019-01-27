@@ -108,7 +108,7 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
 - (NSOperationQueue *)queue {
     if (_queue) {
     } else {
-        _queue = NSOperationQueue.new;
+        _queue = NSOperationQueue.nseConcurrentOperationQueue;
     }
     
     return _queue;
