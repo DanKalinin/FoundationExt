@@ -107,6 +107,8 @@
     self.outputStream = outputStream;
     [outputStream.nseOperation.delegates addObject:self.delegates];
     
+    self.queue.maxConcurrentOperationCount = 1;
+    
     return self;
 }
 

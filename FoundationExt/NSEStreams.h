@@ -44,8 +44,6 @@
 @property (readonly) NSEStreamOpening *inputStreamOpening;
 @property (readonly) NSEStreamOpening *outputStreamOpening;
 
-- (instancetype)initWithTimeout:(NSTimeInterval)timeout;
-
 @end
 
 
