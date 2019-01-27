@@ -7,6 +7,7 @@
 
 #import "NSEOrderedSet.h"
 #import "NSEArray.h"
+#import "NSEOperationQueue.h"
 
 
 
@@ -147,7 +148,7 @@
         if (responds) {
             BOOL exception = [self.exceptions containsObject:NSStringFromSelector(anInvocation.selector)];
             if (self.invocationQueue && !exception) {
-                [self.invocationQueue nseAddOperationWithBlock:^{
+                [self.invocationQueue.nseOperation addOperationWithBlock:^{
                     [anInvocation invokeWithTarget:target];
                 } waitUntilFinished:YES];
             } else {

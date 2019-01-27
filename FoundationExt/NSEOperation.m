@@ -6,6 +6,7 @@
 //
 
 #import "NSEOperation.h"
+#import "NSEOperationQueue.h"
 #import "NSEOrderedSet.h"
 
 
@@ -169,14 +170,14 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     self.state = state;
     
     [self.delegates nseOperationDidUpdateState:self];
-    [self.delegates.nseOperation.invocationQueue nseAddOperationWithBlock:self.stateBlock waitUntilFinished:YES];
+    [self.delegates.nseOperation.invocationQueue.nseOperation addOperationWithBlock:self.stateBlock waitUntilFinished:YES];
     if (self.state == NSEOperationStateDidStart) {
         [self.delegates nseOperationDidStart:self];
     } else if (self.state == NSEOperationStateDidCancel) {
         [self.delegates nseOperationDidCancel:self];
     } else if (self.state == NSEOperationStateDidFinish) {
         [self.delegates nseOperationDidFinish:self];
-        [self.delegates.nseOperation.invocationQueue nseAddOperationWithBlock:self.completion waitUntilFinished:YES];
+        [self.delegates.nseOperation.invocationQueue.nseOperation addOperationWithBlock:self.completion waitUntilFinished:YES];
         
         self.completion = nil;
         self.stateBlock = nil;
@@ -190,40 +191,12 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     self.progress.completedUnitCount = completedUnitCount;
     
     [self.delegates nseOperationDidUpdateProgress:self];
-    [self.delegates.nseOperation.invocationQueue nseAddOperationWithBlock:self.progressBlock waitUntilFinished:YES];
+    [self.delegates.nseOperation.invocationQueue.nseOperation addOperationWithBlock:self.progressBlock waitUntilFinished:YES];
 }
 
 - (void)addOperation:(NSEOperation *)operation {
     [operation.delegates addObject:self.delegates];
     [self.queue addOperation:operation];
-}
-
-@end
-
-
-
-
-
-
-
-
-
-
-@implementation NSOperationQueue (NSE)
-
-- (void)nseAddOperationWithBlock:(NSEBlock)block waitUntilFinished:(BOOL)wait {
-    if (block) {
-        NSOperationQueue *queue = self.class.currentQueue;
-        BOOL current = [self isEqual:queue];
-        BOOL serial = (queue.maxConcurrentOperationCount == 1);
-        BOOL invoke = (wait && current && serial);
-        if (invoke) {
-            block();
-        } else {
-            NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:block];
-            [self addOperations:@[operation] waitUntilFinished:wait];
-        }
-    }
 }
 
 @end

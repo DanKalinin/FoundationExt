@@ -77,18 +77,3 @@ typedef NS_ENUM(NSUInteger, NSEOperationState) {
 - (void)addOperation:(NSEOperation *)operation;
 
 @end
-
-
-
-
-
-
-
-
-
-
-@interface NSOperationQueue (NSE)
-
-- (void)nseAddOperationWithBlock:(NSEBlock)block waitUntilFinished:(BOOL)wait;
-
-@end
