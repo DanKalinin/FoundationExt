@@ -19,7 +19,7 @@ FOUNDATION_EXPORT const unsigned char FoundationExtVersionString[];
 #import <FoundationExt/NSEOrderedSet.h>
 #import <FoundationExt/NSEDictionary.h>
 #import <FoundationExt/NSEDictionaryObject.h>
-#import <FoundationExt/NSEError.h>
+#import <FoundationExt/NSEThread.h>
 #import <FoundationExt/NSEStream.h>
 #import <FoundationExt/NSEInputStream.h>
 #import <FoundationExt/NSEOutputStream.h>
