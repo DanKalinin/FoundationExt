@@ -6,6 +6,7 @@
 //
 
 #import "NSEStream.h"
+#import "NSEArray.h"
 
 
 
@@ -90,8 +91,6 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
 
 - (void)nseStreamOpeningDidStart:(NSEStreamOpening *)opening {
     if (self.parent.object.streamStatus == NSStreamStatusNotOpen) {
-        self.parent.opening = self;
-        
         [self.parent.object scheduleInRunLoop:self.loop forMode:NSDefaultRunLoopMode];
         [self.parent.object open];
     } else {
@@ -118,6 +117,8 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
 
 @interface NSEStreamOperation ()
 
+@property (weak) NSEStreamOpening *opening;
+
 @end
 
 
@@ -138,11 +139,11 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
 }
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout {
-    NSEStreamOpening *opening = [NSEStreamOpening.alloc initWithTimeout:timeout].nseAutorelease;
+    self.opening = [NSEStreamOpening.alloc initWithTimeout:timeout].nseAutorelease;
     
-    [self addOperation:opening];
+    [self addOperation:self.opening];
     
-    return opening;
+    return self.opening;
 }
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {

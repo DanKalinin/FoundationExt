@@ -8,6 +8,7 @@
 #import "NSEOperation.h"
 #import "NSEOperationQueue.h"
 #import "NSEOrderedSet.h"
+#import "NSEDictionary.h"
 
 
 
@@ -25,6 +26,7 @@
 @property (nonatomic) NSOperationQueue *queue;
 @property (nonatomic) NSNotificationCenter *center;
 @property (nonatomic) NSRunLoop *loop;
+@property (nonatomic) NSMutableDictionary *operations;
 
 @end
 

@@ -98,8 +98,6 @@
 
 - (void)nseOutputStreamWritingDidStart:(NSEOutputStreamWriting *)writing {
     if (self.parent.object.streamStatus == NSStreamStatusOpen) {
-        self.parent.writing = self;
-        
         self.progress.totalUnitCount = self.data.length;
         
         if (self.parent.object.hasSpaceAvailable) {
@@ -128,6 +126,8 @@
 
 @interface NSEOutputStreamOperation ()
 
+@property (weak) NSEOutputStreamWriting *writing;
+
 @end
 
 
@@ -138,11 +138,11 @@
 @dynamic object;
 
 - (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout {
-    NSEOutputStreamWriting *writing = [NSEOutputStreamWriting.alloc initWithData:data timeout:timeout].nseAutorelease;
+    self.writing = [NSEOutputStreamWriting.alloc initWithData:data timeout:timeout].nseAutorelease;
     
-    [self addOperation:writing];
+    [self addOperation:self.writing];
     
-    return writing;
+    return self.writing;
 }
 
 - (NSEOutputStreamWriting *)writeData:(NSMutableData *)data timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
