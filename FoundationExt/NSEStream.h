@@ -106,10 +106,11 @@ NS_ERROR_ENUM(NSEStreamErrorDomain) {
 
 @interface NSEStreamOperation : NSEObjectOperation <NSEStreamDelegate, NSStreamDelegate>
 
+@property (weak) NSEStreamOpening *opening;
+
 @property (readonly) NSMutableOrderedSet<NSEStreamDelegate> *delegates;
 
 @property (weak, readonly) NSStream *object;
-@property (weak, readonly) NSEStreamOpening *opening;
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout;
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;

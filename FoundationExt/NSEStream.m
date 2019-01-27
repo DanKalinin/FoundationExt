@@ -90,6 +90,8 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
 
 - (void)nseStreamOpeningDidStart:(NSEStreamOpening *)opening {
     if (self.parent.object.streamStatus == NSStreamStatusNotOpen) {
+        self.parent.opening = self;
+        
         [self.parent.object scheduleInRunLoop:self.loop forMode:NSDefaultRunLoopMode];
         [self.parent.object open];
     } else {
@@ -116,8 +118,6 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
 
 @interface NSEStreamOperation ()
 
-@property (weak) NSEStreamOpening *opening;
-
 @end
 
 
@@ -132,15 +132,17 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
     
     object.delegate = self;
     
+    self.queue.maxConcurrentOperationCount = 1;
+    
     return self;
 }
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout {
-    self.opening = [NSEStreamOpening.alloc initWithTimeout:timeout].nseAutorelease;
+    NSEStreamOpening *opening = [NSEStreamOpening.alloc initWithTimeout:timeout].nseAutorelease;
     
-    [self addOperation:self.opening];
+    [self addOperation:opening];
     
-    return self.opening;
+    return opening;
 }
 
 - (NSEStreamOpening *)openWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
