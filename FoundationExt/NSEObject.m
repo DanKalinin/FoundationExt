@@ -28,12 +28,6 @@
     return shared;
 }
 
-+ (void)nseInvokeBlock:(NSEBlock)block {
-    if (block) {
-        block();
-    }
-}
-
 - (NSMutableDictionary *)nseWeakDictionary {
     NSMutableDictionary *dictionary = objc_getAssociatedObject(self, @selector(nseWeakDictionary));
     
@@ -61,10 +55,6 @@
 - (instancetype)nseAutorelease {
     __autoreleasing NSObject *object = self;
     return object;
-}
-
-- (void)nseInvokeBlock:(NSEBlock)block {
-    [self.class nseInvokeBlock:block];
 }
 
 @end

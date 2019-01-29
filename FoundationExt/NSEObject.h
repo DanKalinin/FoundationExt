@@ -32,10 +32,8 @@
 @property (readonly) NSMutableDictionary *nseStrongDictionary;
 
 + (instancetype)nseShared;
-+ (void)nseInvokeBlock:(NSEBlock)block;
 
 - (instancetype)nseAutorelease;
-- (void)nseInvokeBlock:(NSEBlock)block;
 
 @end
 
