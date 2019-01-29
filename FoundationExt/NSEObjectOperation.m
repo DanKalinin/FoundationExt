@@ -23,12 +23,12 @@
 }
 
 - (NSEObjectOperation *)nseOperation {
-    NSEObjectOperation *operation = self.nseStrongDictionary[NSStringFromSelector(@selector(nseOperation))];
+    NSEObjectOperation *operation = objc_getAssociatedObject(self, @selector(nseOperation));
     
     if (operation) {
     } else {
         operation = [self.nseOperationClass.alloc initWithObject:self];
-        self.nseStrongDictionary[NSStringFromSelector(@selector(nseOperation))] = operation;
+        objc_setAssociatedObject(self, @selector(nseOperation), operation, OBJC_ASSOCIATION_RETAIN);
     }
     
     return operation;

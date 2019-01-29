@@ -28,9 +28,6 @@
 
 @interface NSObject (NSE) <NSEObject>
 
-@property (readonly) NSMutableDictionary *nseWeakDictionary;
-@property (readonly) NSMutableDictionary *nseStrongDictionary;
-
 + (instancetype)nseShared;
 
 - (instancetype)nseAutorelease;
