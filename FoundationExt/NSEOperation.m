@@ -45,6 +45,12 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     return shared;
 }
 
++ (void)invokeBlock:(NSEBlock)block {
+    if (block) {
+        block();
+    }
+}
+
 - (instancetype)init {
     self = super.init;
     

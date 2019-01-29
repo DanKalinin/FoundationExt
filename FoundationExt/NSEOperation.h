@@ -71,6 +71,8 @@ typedef NS_ENUM(NSUInteger, NSEOperationState) {
 @property (nonatomic, readonly) NSNotificationCenter *center;
 @property (nonatomic, readonly) NSRunLoop *loop;
 
++ (void)invokeBlock:(NSEBlock)block;
+
 - (void)finish;
 - (void)updateState:(NSEOperationState)state;
 - (void)updateProgress:(int64_t)completedUnitCount;
