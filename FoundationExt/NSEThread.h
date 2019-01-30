@@ -5,7 +5,7 @@
 //  Created by Dan Kalinin on 1/27/19.
 //
 
-#import "NSEObjectOperation.h"
+#import "NSEObject.h"
 
 @class NSEThread;
 @class NSEThreadOperation;

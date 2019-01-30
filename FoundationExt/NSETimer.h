@@ -5,7 +5,7 @@
 //  Created by Dan Kalinin on 1/18/19.
 //
 
-#import "NSEObjectOperation.h"
+#import "NSEObject.h"
 
 @class NSETimer;
 @class NSETimerOperation;

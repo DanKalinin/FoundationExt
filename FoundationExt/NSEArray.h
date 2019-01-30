@@ -5,7 +5,7 @@
 //  Created by Dan Kalinin on 12/30/18.
 //
 
-#import "NSEObjectOperation.h"
+#import "NSEObject.h"
 
 @class NSEArray;
 @class NSEArrayOperation;
