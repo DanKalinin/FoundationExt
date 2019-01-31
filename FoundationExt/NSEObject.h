@@ -31,6 +31,8 @@
 
 - (instancetype)nseAutorelease;
 
+- (NSEObjectOperation *)nseOperationForKey:(void *)key ofClass:(Class)cls;
+
 @end
 
 

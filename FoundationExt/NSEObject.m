@@ -32,20 +32,25 @@
 }
 
 - (NSEObjectOperation *)nseOperation {
-    NSEObjectOperation *operation = objc_getAssociatedObject(self, @selector(nseOperation));
-    
-    if (operation) {
-    } else {
-        operation = [(NSEObjectOperation *)self.nseOperationClass.alloc initWithObject:self];
-        objc_setAssociatedObject(self, @selector(nseOperation), operation, OBJC_ASSOCIATION_RETAIN);
-    }
-    
+    NSEObjectOperation *operation = [self nseOperationForKey:@selector(nseOperation) ofClass:self.nseOperationClass];
     return operation;
 }
 
 - (instancetype)nseAutorelease {
     __autoreleasing NSObject *object = self;
     return object;
+}
+
+- (NSEObjectOperation *)nseOperationForKey:(void *)key ofClass:(Class)cls {
+    NSEObjectOperation *operation = objc_getAssociatedObject(self, key);
+    
+    if (operation) {
+    } else {
+        operation = [(NSEObjectOperation *)cls.alloc initWithObject:self];
+        objc_setAssociatedObject(self, key, operation, OBJC_ASSOCIATION_RETAIN);
+    }
+    
+    return operation;
 }
 
 @end
