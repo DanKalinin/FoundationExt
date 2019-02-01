@@ -24,9 +24,6 @@
 @property (nonatomic) NSMutableOrderedSet<NSEOperationDelegate> *delegates;
 @property (nonatomic) NSProgress *progress;
 @property (nonatomic) NSOperationQueue *queue;
-@property (nonatomic) NSNotificationCenter *center;
-@property (nonatomic) NSRunLoop *loop;
-@property (nonatomic) NSMutableDictionary *operations;
 
 @end
 
@@ -172,8 +169,6 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
         self.completion = nil;
         self.stateBlock = nil;
         self.progressBlock = nil;
-        
-        [self.center removeObserver:self];
     }
 }
 
