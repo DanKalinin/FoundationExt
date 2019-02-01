@@ -122,24 +122,6 @@ NSErrorDomain const NSEOperationErrorDomain = @"NSEOperation";
     return _queue;
 }
 
-- (NSNotificationCenter *)center {
-    if (_center) {
-    } else {
-        _center = NSNotificationCenter.defaultCenter;
-    }
-    
-    return _center;
-}
-
-- (NSRunLoop *)loop {
-    if (_loop) {
-    } else {
-        _loop = NSRunLoop.currentRunLoop; // TODO: -run
-    }
-    
-    return _loop;
-}
-
 - (void)start {
     if (self.isCancelled) {
         self.isFinished = YES;

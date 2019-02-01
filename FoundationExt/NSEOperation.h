@@ -68,8 +68,6 @@ typedef NS_ENUM(NSUInteger, NSEOperationState) {
 @property (nonatomic, readonly) NSMutableOrderedSet<NSEOperationDelegate> *delegates;
 @property (nonatomic, readonly) NSProgress *progress;
 @property (nonatomic, readonly) NSOperationQueue *queue;
-@property (nonatomic, readonly) NSNotificationCenter *center;
-@property (nonatomic, readonly) NSRunLoop *loop;
 
 + (void)invokeBlock:(NSEBlock)block;
 

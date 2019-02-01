@@ -91,7 +91,7 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
 
 - (void)nseStreamOpeningDidStart:(NSEStreamOpening *)opening {
     if (self.parent.object.streamStatus == NSStreamStatusNotOpen) {
-        [self.parent.object scheduleInRunLoop:self.loop forMode:NSDefaultRunLoopMode];
+        [self.parent.object scheduleInRunLoop:NSRunLoop.currentRunLoop forMode:NSDefaultRunLoopMode];
         [self.parent.object open];
     } else {
         self.error = [NSError errorWithDomain:NSEStreamErrorDomain code:NSEStreamErrorOpen userInfo:nil];
