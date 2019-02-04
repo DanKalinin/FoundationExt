@@ -108,7 +108,7 @@
         }
     } else {
         self.error = [NSError errorWithDomain:NSEStreamErrorDomain code:NSEStreamErrorNotOpen userInfo:nil];
-        [self cancel];
+        [self finish];
     }
 }
 
@@ -185,12 +185,12 @@
         [self.delegates nseInputStreamErrorOccurred:aStream];
         
         self.reading.error = aStream.streamError;
-        [self.reading cancel];
+        [self.reading finish];
     } else if (eventCode == NSStreamEventEndEncountered) {
         [self.delegates nseInputStreamEndEncountered:aStream];
         
         self.reading.error = [NSError errorWithDomain:NSEStreamErrorDomain code:NSEStreamErrorAtEnd userInfo:nil];
-        [self.reading cancel];
+        [self.reading finish];
     }
 }
 

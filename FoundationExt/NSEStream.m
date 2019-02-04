@@ -95,7 +95,7 @@ NSErrorDomain const NSEStreamErrorDomain = @"NSEStream";
         [self.parent.object open];
     } else {
         self.error = [NSError errorWithDomain:NSEStreamErrorDomain code:NSEStreamErrorOpen userInfo:nil];
-        [self cancel];
+        [self finish];
     }
 }
 
