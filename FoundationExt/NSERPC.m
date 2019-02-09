@@ -120,6 +120,7 @@
 
 @property NSEStreams *streams;
 @property NSDictionary<NSNumber *, NSERPCO *> *outputs;
+@property NSERPCI *input;
 
 @end
 

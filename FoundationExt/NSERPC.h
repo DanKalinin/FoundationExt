@@ -136,6 +136,7 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 @property (readonly) Class iClass;
 @property (readonly) Class oClass;
 @property (readonly) NSDictionary<NSNumber *, NSERPCO *> *outputs;
+@property (readonly) NSERPCI *input;
 
 - (instancetype)initWithStreams:(NSEStreams *)streams;
 
