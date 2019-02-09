@@ -7,6 +7,8 @@
 
 #import "NSEOperation.h"
 
+@class NSESequence;
+
 
 
 @interface NSESequence : NSEOperation

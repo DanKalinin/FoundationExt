@@ -105,6 +105,17 @@
     return self;
 }
 
+#pragma mark - NSERPCODelegate
+
+- (void)nseRPCODidStart:(NSERPC *)rpcO {
+    self.serial = self.parent.sequence.value;
+    [self.parent.sequence next];
+    
+    if (self.needsResponse) {
+        self.parent.outputs[@(self.serial)] = self;
+    }
+}
+
 @end
 
 
@@ -119,7 +130,7 @@
 @interface NSERPC ()
 
 @property NSEStreams *streams;
-@property NSDictionary<NSNumber *, NSERPCO *> *outputs;
+@property NSMutableDictionary<NSNumber *, NSERPCO *> *outputs;
 @property NSERPCI *input;
 
 @end
@@ -134,7 +145,8 @@
     self.streams = streams;
     
     self.isAsynchronous = YES;
-    self.outputs = NSDictionary.nseStrongToWeakDictionary;
+    self.sequence = [NSESequence.alloc initWithStart:INT64_MIN stop:INT64_MAX step:1];
+    self.outputs = NSMutableDictionary.nseStrongToWeakDictionary;
     
     return self;
 }

@@ -6,12 +6,16 @@
 //
 
 #import "NSEStreams.h"
+#import "NSESequence.h"
 
 @class NSERPCIO;
 @class NSERPCI;
 @class NSERPCO;
 @class NSERPC;
 
+@protocol NSERPCIODelegate;
+@protocol NSERPCIDelegate;
+@protocol NSERPCODelegate;
 @protocol NSERPCDelegate;
 
 
@@ -132,10 +136,12 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 
 @interface NSERPC : NSEOperation <NSERPCDelegate>
 
+@property NSESequence *sequence;
+
 @property (readonly) NSEStreams *streams;
 @property (readonly) Class iClass;
 @property (readonly) Class oClass;
-@property (readonly) NSDictionary<NSNumber *, NSERPCO *> *outputs;
+@property (readonly) NSMutableDictionary<NSNumber *, NSERPCO *> *outputs;
 @property (readonly) NSERPCI *input;
 
 - (instancetype)initWithStreams:(NSEStreams *)streams;
