@@ -210,7 +210,21 @@
 #pragma mark - NSERPCDelegate
 
 - (void)nseRPCDidStart:(NSERPC *)rpc {
-    
+    self.input = [self inputWithTimeout:0.0];
+}
+
+- (void)nseRPCDidCancel:(NSERPC *)rpc {
+    [self.input cancel];
+}
+
+#pragma mark - NSERPCIDelegate
+
+- (void)nseRPCIDidFinish:(NSERPC *)rpcI {
+    if (rpcI.error) {
+    } else if (rpcI.isCancelled) {
+    } else {
+        self.input = [self inputWithTimeout:0.0];
+    }
 }
 
 @end
