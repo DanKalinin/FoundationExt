@@ -44,6 +44,8 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 @property id response;
 @property NSError *responseError;
 
+@property (readonly) NSERPC *parent;
+
 @end
 
 
@@ -57,11 +59,19 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 
 @protocol NSERPCIDelegate <NSERPCIODelegate>
 
+@optional
+- (void)nseRPCIDidUpdateState:(NSERPC *)rpcI;
+- (void)nseRPCIDidStart:(NSERPC *)rpcI;
+- (void)nseRPCIDidCancel:(NSERPC *)rpcI;
+- (void)nseRPCIDidFinish:(NSERPC *)rpcI;
+
+- (void)nseRPCIDidUpdateProgress:(NSERPC *)rpcI;
+
 @end
 
 
 
-@interface NSERPCI : NSERPCIO
+@interface NSERPCI : NSERPCIO <NSERPCIDelegate>
 
 @end
 
@@ -76,11 +86,24 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 
 @protocol NSERPCODelegate <NSERPCIODelegate>
 
+@optional
+- (void)nseRPCODidUpdateState:(NSERPC *)rpcO;
+- (void)nseRPCODidStart:(NSERPC *)rpcO;
+- (void)nseRPCODidCancel:(NSERPC *)rpcO;
+- (void)nseRPCODidFinish:(NSERPC *)rpcO;
+
+- (void)nseRPCODidUpdateProgress:(NSERPC *)rpcO;
+
 @end
 
 
 
 @interface NSERPCO : NSERPCIO <NSERPCODelegate>
+
+@property (readonly) BOOL needsResponse;
+
+- (instancetype)initWithMessage:(id)message needsResponse:(BOOL)needsResponse timeout:(NSTimeInterval)timeout;
+- (instancetype)initWithResponse:(id)response responseError:(NSError *)responseError responseSerial:(int64_t)responseSerial timeout:(NSTimeInterval)timeout;
 
 @end
 
@@ -112,7 +135,17 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 @property (readonly) NSEStreams *streams;
 @property (readonly) Class iClass;
 @property (readonly) Class oClass;
+@property (readonly) NSDictionary<NSNumber *, NSERPCO *> *outputs;
 
 - (instancetype)initWithStreams:(NSEStreams *)streams;
+
+- (NSERPCI *)inputWithTimeout:(NSTimeInterval)timeout;
+- (NSERPCI *)inputWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
+
+- (NSERPCO *)outputMessage:(id)message needsResponse:(BOOL)needsResponse timeout:(NSTimeInterval)timeout;
+- (NSERPCO *)outputMessage:(id)message needsResponse:(BOOL)needsResponse timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
+
+- (NSERPCO *)outputResponse:(id)response responseError:(NSError *)responseError responseSerial:(int64_t)responseSerial timeout:(NSTimeInterval)timeout;
+- (NSERPCO *)outputResponse:(id)response responseError:(NSError *)responseError responseSerial:(int64_t)responseSerial timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
 
 @end
