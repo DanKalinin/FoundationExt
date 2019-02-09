@@ -221,7 +221,10 @@
 
 - (void)nseRPCIDidFinish:(NSERPC *)rpcI {
     if (rpcI.error) {
+        self.error = rpcI.error;
+        [self finish];
     } else if (rpcI.isCancelled) {
+        [self finish];
     } else {
         self.input = [self inputWithTimeout:0.0];
     }
