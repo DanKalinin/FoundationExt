@@ -8,6 +8,8 @@
 #import "NSEStreams.h"
 
 @class NSERPCIO;
+@class NSERPCI;
+@class NSERPCO;
 @class NSERPC;
 
 @protocol NSERPCDelegate;
@@ -91,7 +93,7 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 
 
 
-@protocol NSERPCDelegate <NSEOperationDelegate>
+@protocol NSERPCDelegate <NSEOperationDelegate, NSERPCIDelegate, NSERPCODelegate>
 
 @optional
 - (void)nseRPCDidUpdateState:(NSERPC *)rpc;
