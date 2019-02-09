@@ -46,6 +46,27 @@
 
 @implementation NSERPCI
 
+@dynamic delegates;
+
+- (void)updateState:(NSEOperationState)state {
+    [super updateState:state];
+    
+    [self.delegates nseRPCIDidUpdateState:self];
+    if (state == NSEOperationStateDidStart) {
+        [self.delegates nseRPCIDidStart:self];
+    } else if (state == NSEOperationStateDidCancel) {
+        [self.delegates nseRPCIDidCancel:self];
+    } else if (state == NSEOperationStateDidFinish) {
+        [self.delegates nseRPCIDidFinish:self];
+    }
+}
+
+- (void)updateProgress:(int64_t)completedUnitCount {
+    [super updateProgress:completedUnitCount];
+    
+    [self.delegates nseRPCIDidUpdateProgress:self];
+}
+
 #pragma mark - NSERPCIDelegate
 
 - (void)nseRPCIDidFinish:(NSERPC *)rpcI {
@@ -82,6 +103,8 @@
 
 @implementation NSERPCO
 
+@dynamic delegates;
+
 - (instancetype)initWithMessage:(id)message needsResponse:(BOOL)needsResponse timeout:(NSTimeInterval)timeout {
     self = [super initWithTimeout:timeout];
     
@@ -103,6 +126,25 @@
     self.type = NSERPCIOTypeReturn;
     
     return self;
+}
+
+- (void)updateState:(NSEOperationState)state {
+    [super updateState:state];
+    
+    [self.delegates nseRPCODidUpdateState:self];
+    if (state == NSEOperationStateDidStart) {
+        [self.delegates nseRPCODidStart:self];
+    } else if (state == NSEOperationStateDidCancel) {
+        [self.delegates nseRPCODidCancel:self];
+    } else if (state == NSEOperationStateDidFinish) {
+        [self.delegates nseRPCODidFinish:self];
+    }
+}
+
+- (void)updateProgress:(int64_t)completedUnitCount {
+    [super updateProgress:completedUnitCount];
+    
+    [self.delegates nseRPCODidUpdateProgress:self];
 }
 
 #pragma mark - NSERPCODelegate

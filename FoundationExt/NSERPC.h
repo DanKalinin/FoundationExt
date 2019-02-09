@@ -64,18 +64,20 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 @protocol NSERPCIDelegate <NSERPCIODelegate>
 
 @optional
-- (void)nseRPCIDidUpdateState:(NSERPC *)rpcI;
-- (void)nseRPCIDidStart:(NSERPC *)rpcI;
-- (void)nseRPCIDidCancel:(NSERPC *)rpcI;
-- (void)nseRPCIDidFinish:(NSERPC *)rpcI;
+- (void)nseRPCIDidUpdateState:(NSERPCI *)rpcI;
+- (void)nseRPCIDidStart:(NSERPCI *)rpcI;
+- (void)nseRPCIDidCancel:(NSERPCI *)rpcI;
+- (void)nseRPCIDidFinish:(NSERPCI *)rpcI;
 
-- (void)nseRPCIDidUpdateProgress:(NSERPC *)rpcI;
+- (void)nseRPCIDidUpdateProgress:(NSERPCI *)rpcI;
 
 @end
 
 
 
 @interface NSERPCI : NSERPCIO <NSERPCIDelegate>
+
+@property (readonly) NSMutableOrderedSet<NSERPCIDelegate> *delegates;
 
 @end
 
@@ -91,12 +93,12 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 @protocol NSERPCODelegate <NSERPCIODelegate>
 
 @optional
-- (void)nseRPCODidUpdateState:(NSERPC *)rpcO;
-- (void)nseRPCODidStart:(NSERPC *)rpcO;
-- (void)nseRPCODidCancel:(NSERPC *)rpcO;
-- (void)nseRPCODidFinish:(NSERPC *)rpcO;
+- (void)nseRPCODidUpdateState:(NSERPCO *)rpcO;
+- (void)nseRPCODidStart:(NSERPCO *)rpcO;
+- (void)nseRPCODidCancel:(NSERPCO *)rpcO;
+- (void)nseRPCODidFinish:(NSERPCO *)rpcO;
 
-- (void)nseRPCODidUpdateProgress:(NSERPC *)rpcO;
+- (void)nseRPCODidUpdateProgress:(NSERPCO *)rpcO;
 
 @end
 
@@ -104,6 +106,7 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 
 @interface NSERPCO : NSERPCIO <NSERPCODelegate>
 
+@property (readonly) NSMutableOrderedSet<NSERPCODelegate> *delegates;
 @property (readonly) BOOL needsResponse;
 
 - (instancetype)initWithMessage:(id)message needsResponse:(BOOL)needsResponse timeout:(NSTimeInterval)timeout;
