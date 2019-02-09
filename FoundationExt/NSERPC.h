@@ -75,7 +75,7 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 
 
 
-@interface NSERPCI : NSERPCIO <NSERPCIDelegate>
+@interface NSERPCI : NSERPCIO <NSERPCIDelegate, NSEInputStreamReadingDelegate>
 
 @property (readonly) NSMutableOrderedSet<NSERPCIDelegate> *delegates;
 
@@ -104,7 +104,7 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 
 
 
-@interface NSERPCO : NSERPCIO <NSERPCODelegate>
+@interface NSERPCO : NSERPCIO <NSERPCODelegate, NSEOutputStreamWritingDelegate>
 
 @property (readonly) NSMutableOrderedSet<NSERPCODelegate> *delegates;
 @property (readonly) BOOL needsResponse;
