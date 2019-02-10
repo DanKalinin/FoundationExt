@@ -194,7 +194,6 @@
     
     self.streams = streams;
     
-    self.isAsynchronous = YES;
     self.sequence = [NSESequence.alloc initWithStart:INT64_MIN stop:INT64_MAX step:1];
     self.outputs = NSMutableDictionary.nseStrongToWeakDictionary;
     
