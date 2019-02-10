@@ -27,6 +27,14 @@
 
 @dynamic parent;
 
+- (NSError *)fullError {
+    if (self.responseError) {
+        return self.responseError;
+    } else {
+        return self.error;
+    }
+}
+
 @end
 
 

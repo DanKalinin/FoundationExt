@@ -49,6 +49,7 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 @property NSError *responseError;
 
 @property (readonly) NSERPC *parent;
+@property (readonly) NSError *fullError;
 
 @end
 
