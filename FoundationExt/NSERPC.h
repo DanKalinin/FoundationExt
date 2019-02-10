@@ -142,6 +142,7 @@ typedef NS_ENUM(NSUInteger, NSERPCIOType) {
 
 @property NSESequence *sequence;
 
+@property (readonly) NSMutableOrderedSet<NSERPCDelegate> *delegates;
 @property (readonly) NSEStreams *streams;
 @property (readonly) Class iClass;
 @property (readonly) Class oClass;
