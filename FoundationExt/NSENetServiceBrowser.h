@@ -72,6 +72,9 @@
 
 @property (readonly) NSENetServiceBrowserOperation *parent;
 @property (readonly) NSMutableOrderedSet<NSENetServiceBrowserDomainsSearchDelegate> *delegates;
+@property (readonly) NSENetServiceDomains domains;
+
+- (instancetype)initWithDomains:(NSENetServiceDomains)domains timeout:(NSTimeInterval)timeout;
 
 @end
 
@@ -102,6 +105,10 @@
 
 @property (readonly) NSENetServiceBrowserOperation *parent;
 @property (readonly) NSMutableOrderedSet<NSENetServiceBrowserServicesSearchDelegate> *delegates;
+@property (readonly) NSString *type;
+@property (readonly) NSString *domain;
+
+- (instancetype)initWithType:(NSString *)type domain:(NSString *)domain timeout:(NSTimeInterval)timeout;
 
 @end
 
@@ -125,5 +132,11 @@
 @property (weak, readonly) NSNetServiceBrowser *object;
 @property (weak, readonly) NSENetServiceBrowserDomainsSearch *domainsSearch;
 @property (weak, readonly) NSENetServiceBrowserServicesSearch *servicesSearch;
+
+- (NSENetServiceBrowserDomainsSearch *)searchForDomains:(NSENetServiceDomains)domains timeout:(NSTimeInterval)timeout;
+- (NSENetServiceBrowserDomainsSearch *)searchForDomains:(NSENetServiceDomains)domains timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
+
+- (NSENetServiceBrowserServicesSearch *)searchForServicesOfType:(NSString *)type inDomain:(NSString *)domain timeout:(NSTimeInterval)timeout;
+- (NSENetServiceBrowserServicesSearch *)searchForServicesOfType:(NSString *)type inDomain:(NSString *)domain timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
 
 @end

@@ -56,6 +56,8 @@
 
 @interface NSENetServiceBrowserDomainsSearch ()
 
+@property NSENetServiceDomains domains;
+
 @end
 
 
@@ -64,6 +66,14 @@
 
 @dynamic parent;
 @dynamic delegates;
+
+- (instancetype)initWithDomains:(NSENetServiceDomains)domains timeout:(NSTimeInterval)timeout {
+    self = [super initWithTimeout:timeout];
+    
+    self.domains = domains;
+    
+    return self;
+}
 
 - (void)updateState:(NSEOperationState)state {
     [super updateState:state];
@@ -103,6 +113,9 @@
 
 @interface NSENetServiceBrowserServicesSearch ()
 
+@property NSString *type;
+@property NSString *domain;
+
 @end
 
 
@@ -111,6 +124,15 @@
 
 @dynamic parent;
 @dynamic delegates;
+
+- (instancetype)initWithType:(NSString *)type domain:(NSString *)domain timeout:(NSTimeInterval)timeout {
+    self = [super initWithTimeout:timeout];
+    
+    self.type = type;
+    self.domain = domain;
+    
+    return self;
+}
 
 - (void)updateState:(NSEOperationState)state {
     [super updateState:state];
@@ -167,6 +189,38 @@
     object.delegate = self;
     
     return self;
+}
+
+- (NSENetServiceBrowserDomainsSearch *)searchForDomains:(NSENetServiceDomains)domains timeout:(NSTimeInterval)timeout {
+    self.domainsSearch = [NSENetServiceBrowserDomainsSearch.alloc initWithDomains:domains timeout:timeout].nseAutorelease;
+    
+    [self addOperation:self.domainsSearch];
+    
+    return self.domainsSearch;
+}
+
+- (NSENetServiceBrowserDomainsSearch *)searchForDomains:(NSENetServiceDomains)domains timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
+    NSENetServiceBrowserDomainsSearch *search = [self searchForDomains:domains timeout:timeout];
+    
+    search.completion = completion;
+    
+    return search;
+}
+
+- (NSENetServiceBrowserServicesSearch *)searchForServicesOfType:(NSString *)type inDomain:(NSString *)domain timeout:(NSTimeInterval)timeout {
+    self.servicesSearch = [NSENetServiceBrowserServicesSearch.alloc initWithType:type domain:domain timeout:timeout].nseAutorelease;
+    
+    [self addOperation:self.servicesSearch];
+    
+    return self.servicesSearch;
+}
+
+- (NSENetServiceBrowserServicesSearch *)searchForServicesOfType:(NSString *)type inDomain:(NSString *)domain timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion {
+    NSENetServiceBrowserServicesSearch *search = [self searchForServicesOfType:type inDomain:domain timeout:timeout];
+    
+    search.completion = completion;
+    
+    return search;
 }
 
 #pragma mark - NSNetServiceBrowserDelegate
