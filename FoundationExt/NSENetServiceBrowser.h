@@ -6,6 +6,7 @@
 //
 
 #import "NSEObject.h"
+#import "NSENetService.h"
 
 @class NSENetServiceBrowser;
 @class NSENetServiceBrowserOperation;
