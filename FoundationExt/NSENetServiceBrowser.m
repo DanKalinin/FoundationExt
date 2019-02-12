@@ -96,6 +96,14 @@
 
 #pragma mark - NSENetServiceBrowserDomainsSearchDelegate
 
+- (void)nseNetServiceBrowserDomainsSearchDidStart:(NSENetServiceBrowserDomainsSearch *)search {
+    if (self.domains == NSENetServiceDomainsBrowsable) {
+        [self.parent.object searchForBrowsableDomains];
+    } else if (self.domains == NSENetServiceDomainsRegistration) {
+        [self.parent.object searchForRegistrationDomains];
+    }
+}
+
 - (void)nseNetServiceBrowserDomainsSearchDidCancel:(NSENetServiceBrowserDomainsSearch *)search {
     [self.parent.object stop];
 }
@@ -154,6 +162,10 @@
 }
 
 #pragma mark - NSENetServiceBrowserServicesSearchDelegate
+
+- (void)nseNetServiceBrowserServicesSearchDidStart:(NSENetServiceBrowserServicesSearch *)search {
+    [self.parent.object searchForServicesOfType:self.type inDomain:self.domain];
+}
 
 - (void)nseNetServiceBrowserServicesSearchDidCancel:(NSENetServiceBrowserServicesSearch *)search {
     [self.parent.object stop];

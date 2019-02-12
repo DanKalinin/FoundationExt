@@ -41,8 +41,7 @@
 
 typedef NS_ENUM(NSUInteger, NSENetServiceDomains) {
     NSENetServiceDomainsBrowsable,
-    NSENetServiceDomainsRegistration,
-    NSENetServiceDomainsAll
+    NSENetServiceDomainsRegistration
 };
 
 @end
