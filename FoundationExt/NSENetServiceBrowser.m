@@ -72,4 +72,37 @@
     return self;
 }
 
+#pragma mark - NSNetServiceBrowserDelegate
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didFindDomain:(NSString *)domainString moreComing:(BOOL)moreComing {
+    
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didRemoveDomain:(NSString *)domainString moreComing:(BOOL)moreComing {
+    
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didFindService:(NSNetService *)service moreComing:(BOOL)moreComing {
+    
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing {
+    
+}
+
+- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)browser {
+    
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didNotSearch:(NSDictionary<NSString *, NSNumber *> *)errorDict {
+    NSLog(@"dict - %@", errorDict);
+}
+
+- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)browser {
+    
+}
+
+// 1 search at a time
+// n - create n browsers
+
 @end
