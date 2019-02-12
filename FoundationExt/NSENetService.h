@@ -6,6 +6,7 @@
 //
 
 #import "NSEObject.h"
+#import "NSETimeoutOperation.h"
 
 @class NSENetService;
 @class NSENetServiceOperation;
