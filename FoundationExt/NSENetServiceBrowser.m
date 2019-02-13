@@ -54,6 +54,37 @@
 
 
 
+@interface NSENetServiceBrowserDidService ()
+
+@property NSNetService *service;
+@property BOOL moreComing;
+
+@end
+
+
+
+@implementation NSENetServiceBrowserDidService
+
+- (instancetype)initWithService:(NSNetService *)service moreComing:(BOOL)moreComing {
+    self = super.init;
+    
+    self.service = service;
+    self.moreComing = moreComing;
+    
+    return self;
+}
+
+@end
+
+
+
+
+
+
+
+
+
+
 @interface NSENetServiceBrowserStopping ()
 
 @end
@@ -174,6 +205,8 @@
 
 @interface NSENetServiceBrowserOperation ()
 
+@property (weak) NSENetServiceBrowserDidService *didFindService;
+@property (weak) NSENetServiceBrowserDidService *didRemoveService;
 @property (weak) NSENetServiceBrowserStopping *stopping;
 @property (weak) NSENetServiceBrowserSearching *searching;
 
@@ -183,6 +216,7 @@
 
 @implementation NSENetServiceBrowserOperation
 
+@dynamic delegates;
 @dynamic object;
 
 - (instancetype)initWithObject:(NSNetServiceBrowser *)object {
@@ -236,11 +270,13 @@
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser didFindService:(NSNetService *)service moreComing:(BOOL)moreComing {
-    
+    self.didFindService = [NSENetServiceBrowserDidService.alloc initWithService:service moreComing:moreComing].nseAutorelease;
+    [self.delegates nseNetServiceBrowserDidFindService:browser];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreComing {
-    
+    self.didRemoveService = [NSENetServiceBrowserDidService.alloc initWithService:service moreComing:moreComing].nseAutorelease;
+    [self.delegates nseNetServiceBrowserDidRemoveService:browser];
 }
 
 - (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)browser {
@@ -248,17 +284,12 @@
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)browser didNotSearch:(NSDictionary<NSString *, NSNumber *> *)errorDict {
-    NSLog(@"dict - %@", errorDict);
-    
-    self.searching.error = nil;
+    self.searching.error = [NSError errorWithDomain:errorDict[NSNetServicesErrorDomain].stringValue code:errorDict[NSNetServicesErrorCode].integerValue userInfo:nil];
     [self.searching finish];
 }
 
 - (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)browser {
     [self.stopping finish];
 }
-
-// 1 search at a time
-// n - create n browsers
 
 @end

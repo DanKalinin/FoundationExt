@@ -9,6 +9,7 @@
 #import "NSENetService.h"
 
 @class NSENetServiceBrowser;
+@class NSENetServiceBrowserDidService;
 @class NSENetServiceBrowserStopping;
 @class NSENetServiceBrowserSearching;
 @class NSENetServiceBrowserOperation;
@@ -42,6 +43,24 @@
 
 
 @interface NSENetServiceBrowser : NSNetServiceBrowser
+
+@end
+
+
+
+
+
+
+
+
+
+
+@interface NSENetServiceBrowserDidService : NSEObject
+
+@property (readonly) NSNetService *service;
+@property (readonly) BOOL moreComing;
+
+- (instancetype)initWithService:(NSNetService *)service moreComing:(BOOL)moreComing;
 
 @end
 
@@ -119,7 +138,11 @@
 
 
 
-@protocol NSENetServiceBrowserDelegate <NSEObjectDelegate, NSENetServiceDelegate, NSENetServiceBrowserStoppingDelegate>
+@protocol NSENetServiceBrowserDelegate <NSEObjectDelegate, NSENetServiceDelegate, NSENetServiceBrowserStoppingDelegate, NSENetServiceBrowserSearchingDelegate>
+
+@optional
+- (void)nseNetServiceBrowserDidFindService:(NSNetServiceBrowser *)browser;
+- (void)nseNetServiceBrowserDidRemoveService:(NSNetServiceBrowser *)browser;
 
 @end
 
@@ -127,7 +150,11 @@
 
 @interface NSENetServiceBrowserOperation : NSEObjectOperation <NSENetServiceBrowserDelegate, NSNetServiceBrowserDelegate>
 
+@property (readonly) NSMutableOrderedSet<NSENetServiceBrowserDelegate> *delegates;
+
 @property (weak, readonly) NSNetServiceBrowser *object;
+@property (weak, readonly) NSENetServiceBrowserDidService *didFindService;
+@property (weak, readonly) NSENetServiceBrowserDidService *didRemoveService;
 @property (weak, readonly) NSENetServiceBrowserStopping *stopping;
 @property (weak, readonly) NSENetServiceBrowserSearching *searching;
 
