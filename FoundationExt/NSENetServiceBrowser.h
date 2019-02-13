@@ -5,7 +5,6 @@
 //  Created by Dan Kalinin on 2/12/19.
 //
 
-#import "NSEObject.h"
 #import "NSENetService.h"
 
 @class NSENetServiceBrowser;
