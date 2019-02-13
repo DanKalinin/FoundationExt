@@ -10,11 +10,12 @@
 
 @class NSENetServiceBrowser;
 @class NSENetServiceBrowserStopping;
-@class NSENetServiceBrowserStarting;
+@class NSENetServiceBrowserSearching;
 @class NSENetServiceBrowserOperation;
 
 @protocol NSENetServiceBrowserDelegate;
 @protocol NSENetServiceBrowserStoppingDelegate;
+@protocol NSENetServiceBrowserSearchingDelegate;
 
 
 
@@ -83,34 +84,29 @@
 
 
 
-@protocol NSENetServiceBrowserStartingDelegate <NSETimeoutOperationDelegate>
+@protocol NSENetServiceBrowserSearchingDelegate <NSETimeoutOperationDelegate>
 
 @optional
-- (void)nseNetServiceBrowserStartingDidUpdateState:(NSENetServiceBrowserStarting *)starting;
-- (void)nseNetServiceBrowserStartingDidStart:(NSENetServiceBrowserStarting *)starting;
-- (void)nseNetServiceBrowserStartingDidCancel:(NSENetServiceBrowserStarting *)starting;
-- (void)nseNetServiceBrowserStartingDidFinish:(NSENetServiceBrowserStarting *)starting;
+- (void)nseNetServiceBrowserSearchingDidUpdateState:(NSENetServiceBrowserSearching *)searching;
+- (void)nseNetServiceBrowserSearchingDidStart:(NSENetServiceBrowserSearching *)searching;
+- (void)nseNetServiceBrowserSearchingDidCancel:(NSENetServiceBrowserSearching *)searching;
+- (void)nseNetServiceBrowserSearchingDidFinish:(NSENetServiceBrowserSearching *)searching;
 
-- (void)nseNetServiceBrowserStartingDidUpdateProgress:(NSENetServiceBrowserStarting *)starting;
+- (void)nseNetServiceBrowserSearchingDidUpdateProgress:(NSENetServiceBrowserSearching *)searching;
 
 @end
 
 
 
-@interface NSENetServiceBrowserStarting : NSETimeoutOperation <NSENetServiceBrowserStartingDelegate, NSENetServiceBrowserStoppingDelegate>
+@interface NSENetServiceBrowserSearching : NSETimeoutOperation <NSENetServiceBrowserSearchingDelegate, NSENetServiceBrowserStoppingDelegate>
 
 @property (readonly) NSENetServiceBrowserOperation *parent;
-@property (readonly) NSMutableOrderedSet<NSENetServiceBrowserStartingDelegate> *delegates;
-@property (readonly) BOOL browsableDomains;
-@property (readonly) BOOL registrationDomains;
-@property (readonly) BOOL services;
+@property (readonly) NSMutableOrderedSet<NSENetServiceBrowserSearchingDelegate> *delegates;
 @property (readonly) NSString *type;
 @property (readonly) NSString *domain;
 @property (readonly) NSENetServiceBrowserStopping *stopping;
 
-- (instancetype)initForBrowsableDomainsWithTimeout:(NSTimeInterval)timeout;
-- (instancetype)initForRegistrationDomainsWithTimeout:(NSTimeInterval)timeout;
-- (instancetype)initForServicesOfType:(NSString *)type domain:(NSString *)domain timeout:(NSTimeInterval)timeout;
+- (instancetype)initWithType:(NSString *)type domain:(NSString *)domain timeout:(NSTimeInterval)timeout;
 
 @end
 
@@ -123,7 +119,7 @@
 
 
 
-@protocol NSENetServiceBrowserDelegate <NSEObjectDelegate, NSENetServiceDelegate>
+@protocol NSENetServiceBrowserDelegate <NSEObjectDelegate, NSENetServiceDelegate, NSENetServiceBrowserStoppingDelegate>
 
 @end
 
@@ -133,18 +129,12 @@
 
 @property (weak, readonly) NSNetServiceBrowser *object;
 @property (weak, readonly) NSENetServiceBrowserStopping *stopping;
-@property (weak, readonly) NSENetServiceBrowserStarting *starting;
+@property (weak, readonly) NSENetServiceBrowserSearching *searching;
 
 - (NSENetServiceBrowserStopping *)stop;
 - (NSENetServiceBrowserStopping *)stopWithCompletion:(NSEBlock)completion;
 
-- (NSENetServiceBrowserStarting *)startForBrowsableDomainsWithTimeout:(NSTimeInterval)timeout;
-- (NSENetServiceBrowserStarting *)startForBrowsableDomainsWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
-
-- (NSENetServiceBrowserStarting *)startForRegistrationDomainsWithTimeout:(NSTimeInterval)timeout;
-- (NSENetServiceBrowserStarting *)startForRegistrationDomainsWithTimeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
-
-- (NSENetServiceBrowserStarting *)startForServicesOfType:(NSString *)type inDomain:(NSString *)domain timeout:(NSTimeInterval)timeout;
-- (NSENetServiceBrowserStarting *)startForServicesOfType:(NSString *)type inDomain:(NSString *)domain timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
+- (NSENetServiceBrowserSearching *)searchForServicesOfType:(NSString *)type inDomain:(NSString *)domain timeout:(NSTimeInterval)timeout;
+- (NSENetServiceBrowserSearching *)searchForServicesOfType:(NSString *)type inDomain:(NSString *)domain timeout:(NSTimeInterval)timeout completion:(NSEBlock)completion;
 
 @end
