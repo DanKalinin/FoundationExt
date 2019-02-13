@@ -39,11 +39,6 @@
 
 @interface NSENetService : NSNetService
 
-typedef NS_ENUM(NSUInteger, NSENetServiceDomains) {
-    NSENetServiceDomainsBrowsable,
-    NSENetServiceDomainsRegistration
-};
-
 @end
 
 
