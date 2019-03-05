@@ -3082,3 +3082,21 @@ static void Callback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags
 }
 
 @end
+
+
+
+
+
+
+
+
+
+
+@implementation NSUndoManager (Helpers)
+
+- (void)endGroupingAndUndo {
+    [self endUndoGrouping];
+    [self undoNestedGroup];
+}
+
+@end
